@@ -8,7 +8,7 @@ import gestorBD.gestorBD;
 import modelo.Persona;
 
 public class ControladorPersona {
-	
+	//sd
 	public ArrayList<Persona> getPersonas(){
 			gestorBD bd = new gestorBD();
 			bd.conectarBD();
