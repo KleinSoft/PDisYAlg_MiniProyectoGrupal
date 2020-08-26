@@ -63,10 +63,9 @@ public class VistaPersona {
 		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
 		
 		JDatePickerImpl datePickerInsert;
-		
+		//crearCalendario(panel, datePickerInsert);
 		JDatePickerImpl datePickerModif;
-		crearCalendario(panel);
-		crearCalendario(panel);
+		//crearCalendario(panel_1, datePickerModif);
 	}
 	
 	private void crearCalendario(JPanel panel, JDatePickerImpl datePicker) {
