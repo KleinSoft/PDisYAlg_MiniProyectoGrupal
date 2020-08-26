@@ -45,10 +45,9 @@ public class VistaPersona {
 	 */
 	public VistaPersona() {
 		initialize();
-		table.setModel(DAOEntidad.cargarTabla(DAOPersona.findAll()));
+		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
 	}
 	
-	Connection connection = DatabaseManager.getConnection();
 	private JScrollPane scrollPane;
 	private JTable table;
 

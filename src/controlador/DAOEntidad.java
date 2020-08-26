@@ -1,22 +1,15 @@
 package controlador;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.LinkedList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import gestorBD.DatabaseManager;
-import modelo.Persona;
-
 public class DAOEntidad {
 	
-	public static DefaultTableModel cargarTabla(ResultSet resultado) {
+	public static void cargarTabla(JTable table, ResultSet resultado) {
 		
 		DefaultTableModel modeloTabla = new DefaultTableModel();
 
@@ -28,34 +21,30 @@ public class DAOEntidad {
 			int cantColumna = datosColumna.getColumnCount();
 			
 			for (int i  = 0; i < cantColumna - 1; i++) {
+				if(i != 0 || i != 8)
 				modeloTabla.addColumn(datosColumna.getColumnName(i+1));
 				
 			}
 			
+			//JOptionPane.showMessageDialog(null, "Numero: " + size);
 			while(resultado.next()) {
 				
 				String [] datosFila = new String[cantColumna];
-				
+				JOptionPane.showMessageDialog(null, "Numero: " + cantColumna);
+
 				for (int i = 0; i < datosFila.length; i++) {
-				
-					
-					if(i!=6){
-						datosFila[i] = resultado.getString(i+1);	
-								
-					}
-				}
-				
+					JOptionPane.showMessageDialog(null, "Numero: " + 1);
+					datosFila[i] = resultado.getString(i);
+				}			
 				modeloTabla.addRow(datosFila);
-				
 
 			}
 			
+			table.setModel(modeloTabla);
 			modeloTabla.fireTableDataChanged();
-			return modeloTabla;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}			
 
 	}

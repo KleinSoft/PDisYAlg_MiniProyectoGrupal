@@ -67,7 +67,7 @@ public class gestorBD {
 			DefaultTableModel modeloTabla = new DefaultTableModel();
 
 			try {
-				sentencia = connection.createStatement();
+				sentencia = DatabaseManager.getConnection().createStatement();
 				ResultSet result = sentencia.executeQuery(consulta);
 				
 				ResultSetMetaData datosTabla = result.getMetaData();
@@ -81,7 +81,7 @@ public class gestorBD {
 			
 				while(result.next()) {
 					String [] datosFila = new String[cantColumnas];
-					
+					System.out.println("hola");
 					for (int i = 0; i < datosFila.length; i++) {
 						datosFila[i] = result.getString(i+1);
 					
@@ -94,7 +94,6 @@ public class gestorBD {
 				tabla.setModel(modeloTabla);
 				modeloTabla.fireTableDataChanged();
 				
-				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}			
