@@ -30,6 +30,7 @@ import javax.swing.JTabbedPane;
 import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
 
+import org.jdatepicker.impl.DateComponentFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
@@ -61,7 +62,7 @@ public class VistaPersona {
 		initialize();
 		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
 		
-		//crearCalendario();
+		crearCalendario();
 	}
 	
 	private void crearCalendario() {
@@ -72,11 +73,11 @@ public class VistaPersona {
 		p.put("text.month", "Month");
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-		// Don't know about the formatter, but there it is...
-		//JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+
+		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 		
-		
-		//panel.add(datePicker);
+		datePicker.setBounds(315, 5, 100, 100);
+		panel.add(datePicker);
 	}
 	
 	private JScrollPane scrollPane;
