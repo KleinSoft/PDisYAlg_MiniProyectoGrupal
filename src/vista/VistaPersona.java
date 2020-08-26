@@ -166,4 +166,8 @@ public class VistaPersona {
 		table = new JTable();
 		scrollPane.setViewportView(table);
 	}
+	
+	public void mostrar() {
+		frame.setVisible(true);
+	}
 }
