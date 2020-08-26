@@ -14,7 +14,7 @@ import modelo.Persona;
 public class DAOPersona {
 	
 	private static final String CUENTA_PERSONAS = "SELECT COUNT(ID_PERSONA) AS CUENTA FROM PERSONA";
-	private static final String ALL_PERSONAS = "SELECT DOCUMENTO, APELLIDO1, APELLIDO2, NOMBRE1, NOMBRE2, FEC_NAC, CLAVE, MAIL FROM PERSONA";
+	private static final String ALL_PERSONAS = "SELECT * FROM PERSONA";
 	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,NOMBRE2) "
 			+ "values (?,?,?,?,?,?)";
 	private static final String UPDATE_PERSONAS = "UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, NOMBRE2=? "
@@ -43,26 +43,26 @@ public class DAOPersona {
 	
 	public static ResultSet findAll() {
 		LinkedList<Persona> personas = new LinkedList<>();
-		PreparedStatement statement;
+		Statement statement;
 		ResultSet resultado;
 		try {
 			
-			statement = DatabaseManager.getConnection().prepareStatement(ALL_PERSONAS);
-			resultado = statement.executeQuery();
+			statement = DatabaseManager.getConnection().createStatement();
+			resultado = statement.executeQuery(ALL_PERSONAS);
 
 			while(resultado.next()) {
 				
-				String documento = resultado.getString(1);
-				String nombre1 = resultado.getString(4);
-				String nombre2 = resultado.getString(5);
-				String apellido1 = resultado.getString(2);
-				String apellido2 = resultado.getString(3);
-				Date fechaNac = resultado.getTimestamp(6);
-				String clave = resultado.getString(7);
-				String email = resultado.getString(8);
-				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, null, clave, email);
-				
-				personas.add(p);
+//				String documento = resultado.getString(1);
+//				String nombre1 = resultado.getString(4);
+//				String nombre2 = resultado.getString(5);
+//				String apellido1 = resultado.getString(2);
+//				String apellido2 = resultado.getString(3);
+//				Date fechaNac = resultado.getTimestamp(6);
+//				String clave = resultado.getString(7);
+//				String email = resultado.getString(8);
+//				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, null, clave, email);
+//				
+//				personas.add(p);
 			}
 			return resultado;
 		}

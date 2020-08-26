@@ -24,12 +24,9 @@ public class DAOEntidad {
 			}
 			
 			while(resultado.next()) {
-				
 				String [] datosFila = new String[cantColumna];
-				JOptionPane.showMessageDialog(null, "Numero: " + cantColumna);
 
 				for (int i = 0; i < datosFila.length; i++) {
-					JOptionPane.showMessageDialog(null, "Numero: " + 1);
 					datosFila[i] = resultado.getString(i);
 				}			
 				modeloTabla.addRow(datosFila);
