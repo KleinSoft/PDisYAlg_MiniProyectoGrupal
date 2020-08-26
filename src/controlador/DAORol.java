@@ -41,7 +41,7 @@ public class DAORol {
 	}
 	
 	public static ResultSet findAll() {
-		LinkedList<Funcionalidad> funcionalidades = new LinkedList<>();
+		LinkedList<Rol> rol = new LinkedList<>();
 		Statement statement;
 		ResultSet resultado;
 		try {
