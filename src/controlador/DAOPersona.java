@@ -50,8 +50,8 @@ public class DAOPersona {
 			statement = DatabaseManager.getConnection().createStatement();
 			resultado = statement.executeQuery(ALL_PERSONAS);
 
-			while(resultado.next()) {
-				
+//			while(resultado.next()) {
+//				
 //				String documento = resultado.getString(1);
 //				String nombre1 = resultado.getString(4);
 //				String nombre2 = resultado.getString(5);
@@ -63,7 +63,7 @@ public class DAOPersona {
 //				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, null, clave, email);
 //				
 //				personas.add(p);
-			}
+//			}
 			return resultado;
 		}
 		catch(SQLException e) {
