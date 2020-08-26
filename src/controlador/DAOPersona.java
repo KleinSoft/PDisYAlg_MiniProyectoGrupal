@@ -15,8 +15,8 @@ public class DAOPersona {
 	
 	private static final String CUENTA_PERSONAS = "SELECT COUNT(ID_PERSONA) AS CUENTA FROM PERSONA";
 	private static final String ALL_PERSONAS = "SELECT * FROM PERSONA";
-	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,NOMBRE2) "
-			+ "values (?,?,?,?,?,?)";
+	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,NOMBRE2,FEC_NAC, MAIL, CLAVE, ID_ROL) "
+			+ "values (SEQ_ID_PERSONA.NEXTVAL,?,?,?,?,?,?,?,?,1)";
 	private static final String UPDATE_PERSONAS = "UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, NOMBRE2=? "
 			+ "WHERE ID_PERSONA=?";
 	private static final String DELETE_PERSONAS = "DELETE FROM PERSONA WHERE ID_PERSONA=?";
@@ -78,13 +78,17 @@ public class DAOPersona {
 		try {
 			
 			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(INSERT_PERSONAS);
-			
-			statement.setLong(1, 500);
-			statement.setString(2, p.getDocumento());
-			statement.setString(3, p.getApellido1());
-			statement.setString(4, p.getApellido2());
-			statement.setString(5, p.getNombre1());
-			statement.setString(6, p.getNombre2());
+			java.util.Date now = new java.util.Date();
+			java.sql.Date sqlDate = new java.sql.Date(now.getTime());
+
+			statement.setString(1, p.getDocumento());
+			statement.setString(2, p.getApellido1());
+			statement.setString(3, p.getApellido2());
+			statement.setString(4, p.getNombre1());
+			statement.setString(5, p.getNombre2());
+			statement.setDate(6, sqlDate);
+			statement.setString(7, p.getEmail());
+			statement.setString(8, p.getClave());
 			
 			int Retorno = statement.executeUpdate();
 			
