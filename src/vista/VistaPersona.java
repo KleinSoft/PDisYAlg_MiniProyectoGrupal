@@ -62,10 +62,14 @@ public class VistaPersona {
 		initialize();
 		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
 		
-		crearCalendario();
+		JDatePickerImpl datePickerInsert;
+		
+		JDatePickerImpl datePickerModif;
+		crearCalendario(panel);
+		crearCalendario(panel);
 	}
 	
-	private void crearCalendario() {
+	private void crearCalendario(JPanel panel, JDatePickerImpl datePicker) {
 		UtilDateModel model = new UtilDateModel();
 		//model.setDate(20,04,2014);
 		Properties p = new Properties();
@@ -74,9 +78,9 @@ public class VistaPersona {
 		p.put("text.year", "Year");
 		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 
-		JDatePickerImpl datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
+		datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 		
-		datePicker.setBounds(315, 5, 100, 100);
+		datePicker.setBounds(319, 5, 200, 25);
 		panel.add(datePicker);
 	}
 	
@@ -126,7 +130,7 @@ public class VistaPersona {
 		scrollPane.setViewportView(table);
 		JTabbedPane panelABM = new JTabbedPane(JTabbedPane.TOP);
 		panelABM.setToolTipText("");
-		panelABM.setBounds(5, 310, 473, 254);
+		panelABM.setBounds(5, 310, 530, 254);
 		frame.getContentPane().add(panelABM);
 		
 		panel = new JPanel();
