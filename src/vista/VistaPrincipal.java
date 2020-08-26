@@ -68,7 +68,7 @@ public class VistaPrincipal {
 		btnRoles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VistaRol vr = new VistaRol();
-				vr.mostrar();
+				vr.mostrar();//vista rol
 			}
 		});
 		btnRoles.setBounds(66, 180, 242, 85);
