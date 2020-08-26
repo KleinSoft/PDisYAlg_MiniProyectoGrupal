@@ -62,9 +62,9 @@ public class VistaPersona {
 		initialize();
 		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
 		
-		JDatePickerImpl datePickerInsert;
+		JDatePickerImpl datePickerInsert = null;
 		crearCalendario(panel, datePickerInsert);
-		JDatePickerImpl datePickerModif;
+		JDatePickerImpl datePickerModif = null;
 		crearCalendario(panel_1, datePickerModif);
 	}
 	
@@ -79,7 +79,7 @@ public class VistaPersona {
 
 		datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
 		
-		datePicker.setBounds(319, 5, 200, 25);
+		datePicker.setBounds(319, 5, 200, 26);
 		panel.add(datePicker);
 	}
 	
@@ -112,6 +112,38 @@ public class VistaPersona {
 	private JTextField segundoApellidoModificarTexto;
 	private JTextField textField_6;
 	private JPanel panel;
+	private JPanel panel_2;
+	private JLabel Documento_2;
+	private JTextField documentoEliminarTexto;
+	private JLabel Documento_1_1_3;
+	private JLabel Documento_4;
+	private JTextField claveEliminarTexto;
+	private JButton InsertarBoton_1;
+	private JLabel Documento_1_9;
+	private JTextField primerNombreEliminarTexto;
+	private JLabel Documento_1_10;
+	private JTextField segundoNombreEliminarTexto;
+	private JLabel Documento_1_11;
+	private JTextField textField_4;
+	private JLabel Documento_1_12;
+	private JTextField textField_5;
+	private JTextField primerApellidoEliminarTexto;
+	private JPanel panel_3;
+	private JLabel Documento_5;
+	private JTextField textField_8;
+	private JLabel Documento_1_1_4;
+	private JLabel Documento_6;
+	private JTextField textField_9;
+	private JButton InsertarBoton_2;
+	private JLabel Documento_1_13;
+	private JTextField textField_10;
+	private JLabel Documento_1_14;
+	private JTextField textField_11;
+	private JLabel Documento_1_15;
+	private JTextField textField_12;
+	private JLabel Documento_1_16;
+	private JTextField textField_13;
+	private JTextField textField_14;
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -275,6 +307,150 @@ public class VistaPersona {
 		textField_6.setColumns(10);
 		textField_6.setBounds(160, 72, 150, 22);
 		panel_1.add(textField_6);
+		
+		panel_2 = new JPanel();
+		panel_2.setLayout(null);
+		panelABM.addTab("Eliminar", null, panel_2, null);
+		
+		Documento_2 = new JLabel("Documento");
+		Documento_2.setBounds(5, 5, 150, 15);
+		panel_2.add(Documento_2);
+		
+		documentoEliminarTexto = new JTextField();
+		documentoEliminarTexto.setColumns(10);
+		documentoEliminarTexto.setBounds(5, 25, 150, 22);
+		panel_2.add(documentoEliminarTexto);
+		
+		Documento_1_1_3 = new JLabel("Primer Apellido");
+		Documento_1_1_3.setBounds(160, 52, 150, 15);
+		panel_2.add(Documento_1_1_3);
+		
+		Documento_4 = new JLabel("Clave");
+		Documento_4.setBounds(160, 5, 129, 16);
+		panel_2.add(Documento_4);
+		
+		claveEliminarTexto = new JTextField();
+		claveEliminarTexto.setColumns(10);
+		claveEliminarTexto.setBounds(160, 25, 150, 22);
+		panel_2.add(claveEliminarTexto);
+		
+		InsertarBoton_1 = new JButton("Insertar Nuevo");
+		InsertarBoton_1.setBounds(5, 193, 305, 25);
+		panel_2.add(InsertarBoton_1);
+		
+		Documento_1_9 = new JLabel("Primer Nombre");
+		Documento_1_9.setBounds(5, 52, 129, 15);
+		panel_2.add(Documento_1_9);
+		
+		primerNombreEliminarTexto = new JTextField();
+		primerNombreEliminarTexto.setColumns(10);
+		primerNombreEliminarTexto.setBounds(5, 72, 150, 22);
+		panel_2.add(primerNombreEliminarTexto);
+		
+		Documento_1_10 = new JLabel("Segundo Nombre");
+		Documento_1_10.setBounds(5, 99, 150, 15);
+		panel_2.add(Documento_1_10);
+		
+		segundoNombreEliminarTexto = new JTextField();
+		segundoNombreEliminarTexto.setColumns(10);
+		segundoNombreEliminarTexto.setBounds(5, 119, 150, 22);
+		panel_2.add(segundoNombreEliminarTexto);
+		
+		Documento_1_11 = new JLabel("Correo");
+		Documento_1_11.setHorizontalAlignment(SwingConstants.CENTER);
+		Documento_1_11.setBounds(5, 146, 305, 15);
+		panel_2.add(Documento_1_11);
+		
+		textField_4 = new JTextField();
+		textField_4.setColumns(10);
+		textField_4.setBounds(5, 166, 305, 22);
+		panel_2.add(textField_4);
+		
+		Documento_1_12 = new JLabel("Segundo Apellido");
+		Documento_1_12.setBounds(160, 99, 129, 15);
+		panel_2.add(Documento_1_12);
+		
+		textField_5 = new JTextField();
+		textField_5.setColumns(10);
+		textField_5.setBounds(160, 119, 150, 22);
+		panel_2.add(textField_5);
+		
+		primerApellidoEliminarTexto = new JTextField();
+		primerApellidoEliminarTexto.setColumns(10);
+		primerApellidoEliminarTexto.setBounds(160, 72, 150, 22);
+		panel_2.add(primerApellidoEliminarTexto);
+		
+		panel_3 = new JPanel();
+		panel_3.setLayout(null);
+		panelABM.addTab("Buscar", null, panel_3, null);
+		
+		Documento_5 = new JLabel("Documento");
+		Documento_5.setBounds(5, 5, 150, 15);
+		panel_3.add(Documento_5);
+		
+		textField_8 = new JTextField();
+		textField_8.setColumns(10);
+		textField_8.setBounds(5, 25, 150, 22);
+		panel_3.add(textField_8);
+		
+		Documento_1_1_4 = new JLabel("Primer Apellido");
+		Documento_1_1_4.setBounds(160, 52, 150, 15);
+		panel_3.add(Documento_1_1_4);
+		
+		Documento_6 = new JLabel("Clave");
+		Documento_6.setBounds(160, 5, 129, 16);
+		panel_3.add(Documento_6);
+		
+		textField_9 = new JTextField();
+		textField_9.setColumns(10);
+		textField_9.setBounds(160, 25, 150, 22);
+		panel_3.add(textField_9);
+		
+		InsertarBoton_2 = new JButton("Insertar Nuevo");
+		InsertarBoton_2.setBounds(5, 193, 305, 25);
+		panel_3.add(InsertarBoton_2);
+		
+		Documento_1_13 = new JLabel("Primer Nombre");
+		Documento_1_13.setBounds(5, 52, 129, 15);
+		panel_3.add(Documento_1_13);
+		
+		textField_10 = new JTextField();
+		textField_10.setColumns(10);
+		textField_10.setBounds(5, 72, 150, 22);
+		panel_3.add(textField_10);
+		
+		Documento_1_14 = new JLabel("Segundo Nombre");
+		Documento_1_14.setBounds(5, 99, 150, 15);
+		panel_3.add(Documento_1_14);
+		
+		textField_11 = new JTextField();
+		textField_11.setColumns(10);
+		textField_11.setBounds(5, 119, 150, 22);
+		panel_3.add(textField_11);
+		
+		Documento_1_15 = new JLabel("Correo");
+		Documento_1_15.setHorizontalAlignment(SwingConstants.CENTER);
+		Documento_1_15.setBounds(5, 146, 305, 15);
+		panel_3.add(Documento_1_15);
+		
+		textField_12 = new JTextField();
+		textField_12.setColumns(10);
+		textField_12.setBounds(5, 166, 305, 22);
+		panel_3.add(textField_12);
+		
+		Documento_1_16 = new JLabel("Segundo Apellido");
+		Documento_1_16.setBounds(160, 99, 129, 15);
+		panel_3.add(Documento_1_16);
+		
+		textField_13 = new JTextField();
+		textField_13.setColumns(10);
+		textField_13.setBounds(160, 119, 150, 22);
+		panel_3.add(textField_13);
+		
+		textField_14 = new JTextField();
+		textField_14.setColumns(10);
+		textField_14.setBounds(160, 72, 150, 22);
+		panel_3.add(textField_14);
 		InsertarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Persona persona = new Persona();
