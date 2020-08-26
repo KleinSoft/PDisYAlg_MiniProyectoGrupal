@@ -49,22 +49,22 @@ public class DAOPersona {
 			
 			statement = DatabaseManager.getConnection().prepareStatement(ALL_PERSONAS);
 			resultado = statement.executeQuery();
-//			while(resultado.next()) {
-//				
-//				JOptionPane.showMessageDialog(null, "hola");
-//				System.out.println("imprimo");
-//				String documento = resultado.getString(1);
-//				String nombre1 = resultado.getString(4);
-//				String nombre2 = resultado.getString(5);
-//				String apellido1 = resultado.getString(2);
-//				String apellido2 = resultado.getString(3);
-//				//Date fechaNac = resultado.getTimestamp(6);
-//				String clave = resultado.getString(7);
-//				String email = resultado.getString(8);
-//				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, null, clave, email);
-//				
-//				personas.add(p);
-//			}
+			while(resultado.next()) {
+				
+				JOptionPane.showMessageDialog(null, "hola");
+				System.out.println("imprimo");
+				String documento = resultado.getString(1);
+				String nombre1 = resultado.getString(4);
+				String nombre2 = resultado.getString(5);
+				String apellido1 = resultado.getString(2);
+				String apellido2 = resultado.getString(3);
+				Date fechaNac = resultado.getTimestamp(6);
+				String clave = resultado.getString(7);
+				String email = resultado.getString(8);
+				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, null, clave, email);
+				
+				personas.add(p);
+			}
 			return resultado;
 		}
 		catch(SQLException e) {
@@ -73,7 +73,6 @@ public class DAOPersona {
 		}
 		
 	}
-	
 	
 	public static boolean insert(Persona p) {
 		
@@ -107,7 +106,7 @@ public class DAOPersona {
 			statement.setString(3, persona.getApellido2());
 			statement.setString(4, persona.getNombre1());
 			statement.setString(5, persona.getNombre2());
-			//statement.setDate(6, (java.sql.Date) persona.getFechaNac());
+			statement.setDate(6, (java.sql.Date) persona.getFechaNac());
 			statement.setString(7, persona.getClave());
 			statement.setString(8, persona.getEmail());
 			int retorno = statement.executeUpdate();
