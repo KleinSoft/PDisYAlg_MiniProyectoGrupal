@@ -27,7 +27,7 @@ public class DAOEntidad {
 				String [] datosFila = new String[cantColumna];
 
 				for (int i = 0; i < datosFila.length; i++) {
-					datosFila[i] = resultado.getString(i);
+					datosFila[i] = resultado.getString(i+1);
 				}			
 				modeloTabla.addRow(datosFila);
 
