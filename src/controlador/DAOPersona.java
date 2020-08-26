@@ -11,7 +11,7 @@ import modelo.Persona;
 public class DAOPersona {
 	
 	private static final String CUENTA_PERSONAS = "SELECT COUNT(ID_PERSONA) AS CUENTA FROM PERSONA";
-	private static final String ALL_PERSONAS = "SELECT * FROM PERSONA";
+	private static final String ALL_PERSONAS = "SELECT * FROM TC.PERSONA";
 	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,NOMBRE2) "
 			+ "values (?,?,?,?,?,?)";
 	private static final String UPDATE_PERSONAS = "UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, NOMBRE2=? "
@@ -51,10 +51,10 @@ public class DAOPersona {
 				String nombre2 = resultado.getString(5);
 				String apellido1 = resultado.getString(2);
 				String apellido2 = resultado.getString(3);
-				Date fechaNac = resultado.getDate(6);
+				//Date fechaNac = (java.util.Date)resultado.getDate(6);
 				String clave = resultado.getString(7);
 				String email = resultado.getString(8);
-				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, fechaNac, clave, email);
+				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, null, clave, email);
 				
 				personas.add(p);
 			}

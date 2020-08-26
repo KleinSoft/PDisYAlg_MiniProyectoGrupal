@@ -37,15 +37,20 @@ public class DAOEntidad {
 				String [] datosFila = new String[cantColumna];
 				
 				for (int i = 0; i < datosFila.length; i++) {
-					datosFila[i] = resultado.getString(i+1);	
+				
 					
+					if(i!=6){
+						datosFila[i] = resultado.getString(i+1);	
+								
+					}
 				}
 				
 				modeloTabla.addRow(datosFila);
 				
 
 			}
-	
+			
+			modeloTabla.fireTableDataChanged();
 			return modeloTabla;
 			
 		} catch (Exception e) {
