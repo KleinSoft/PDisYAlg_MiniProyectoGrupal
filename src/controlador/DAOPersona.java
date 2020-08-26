@@ -14,7 +14,7 @@ import modelo.Persona;
 public class DAOPersona {
 	
 	private static final String CUENTA_PERSONAS = "SELECT COUNT(ID_PERSONA) AS CUENTA FROM PERSONA";
-	private static final String ALL_PERSONAS = "SELECT * FROM PERSONA";
+	private static final String ALL_PERSONAS = "SELECT DOCUMENTO, APELLIDO1, APELLIDO2, NOMBRE1, NOMBRE2, FEC_NAC, CLAVE, MAIL FROM PERSONA";
 	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,NOMBRE2) "
 			+ "values (?,?,?,?,?,?)";
 	private static final String UPDATE_PERSONAS = "UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, NOMBRE2=? "
@@ -49,10 +49,9 @@ public class DAOPersona {
 			
 			statement = DatabaseManager.getConnection().prepareStatement(ALL_PERSONAS);
 			resultado = statement.executeQuery();
+
 			while(resultado.next()) {
 				
-				JOptionPane.showMessageDialog(null, "hola");
-				System.out.println("imprimo");
 				String documento = resultado.getString(1);
 				String nombre1 = resultado.getString(4);
 				String nombre2 = resultado.getString(5);
