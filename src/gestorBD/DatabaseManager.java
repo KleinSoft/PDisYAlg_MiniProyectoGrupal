@@ -9,9 +9,9 @@ public class DatabaseManager {
 	
 	private static String CONNECTION_STRING = "jdbc:oracle:thin:@localhost:1521:xe";
 	
-	private static String USUARIO = "TC";
+	private static String USUARIO = "JAVA";
 	
-	private static String CLAVE = "TC";
+	private static String CLAVE = "JAVA";
 
 	static {
 		
