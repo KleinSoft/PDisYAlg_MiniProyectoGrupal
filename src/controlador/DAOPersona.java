@@ -14,7 +14,9 @@ import modelo.Persona;
 public class DAOPersona {
 	
 	private static final String CUENTA_PERSONAS = "SELECT COUNT(ID_PERSONA) AS CUENTA FROM PERSONA";
-	private static final String ALL_PERSONAS = "SELECT * FROM PERSONA INNER JOIN ROL ON PERSONA.ID_ROL = ROL.ID_ROL";
+	private static final String ALL_PERSONAS = "SELECT R.ID_ROL, P.ID_PERSONA, P.DOCUMENTO, P.NOMBRE1, P.NOMBRE2, P.APELLIDO1, "
+												+ "P.APELLIDO2, P.FEC_NAC, P.MAIL, P.CLAVE, R.NOMBRE AS ROL FROM PERSONA "
+												+ "P INNER JOIN ROL R ON P.ID_ROL = R.ID_ROL";
 	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,"
 			+ "NOMBRE2,FEC_NAC, MAIL, CLAVE, ID_ROL) "
 			+ "values (SEQ_ID_PERSONA.NEXTVAL,?,?,?,?,?,?,?,?,1)";
@@ -52,20 +54,6 @@ public class DAOPersona {
 			statement = DatabaseManager.getConnection().createStatement();
 			resultado = statement.executeQuery(ALL_PERSONAS);
 
-//			while(resultado.next()) {
-//				
-//				String documento = resultado.getString(1);
-//				String nombre1 = resultado.getString(4);
-//				String nombre2 = resultado.getString(5);
-//				String apellido1 = resultado.getString(2);
-//				String apellido2 = resultado.getString(3);
-//				Date fechaNac = resultado.getTimestamp(6);
-//				String clave = resultado.getString(7);
-//				String email = resultado.getString(8);
-//				Persona p = new Persona(documento, nombre1, nombre2, apellido1, apellido2, null, clave, email);
-//				
-//				personas.add(p);
-//			}
 			return resultado;
 		}
 		catch(SQLException e) {
@@ -112,9 +100,16 @@ public class DAOPersona {
 			statement.setString(4, persona.getNombre1());
 			statement.setString(5, persona.getNombre2());
 			statement.setDate(6, (java.sql.Date) persona.getFechaNac());
-			statement.setString(7, persona.getClave());
-			statement.setString(8, persona.getEmail());
-			statement.setInt(9, persona.getRol().getId());
+			statement.setString(7, persona.getEmail());
+			statement.setString(8, persona.getClave());
+			statement.setInt(9, 1);
+			
+			statement.setInt(10, persona.getId());
+			
+//			"UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, "
+//			+ "NOMBRE2=?, FEC_NAC=?, MAIL=?, CLAVE=?, ID_ROL=?"
+//			+ "WHERE ID_PERSONA=?"
+			
 			int retorno = statement.executeUpdate();
 			
 			return retorno>0;

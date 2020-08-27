@@ -3,12 +3,13 @@ package vista;
 import java.awt.EventQueue;
 
 import modelo.Persona;
+import modelo.Rol;
 
 import javax.swing.JFrame;
 
 import controlador.DAOEntidad;
 import controlador.DAOPersona;
-
+import controlador.DAORol;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -16,14 +17,17 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.JComboBox;
 
 public class VistaPersona {
 
@@ -47,18 +51,37 @@ public class VistaPersona {
 
 	public VistaPersona() {
 		initialize();
-
-		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
-		ajustesTabla();
-
+		
+		cargarDatos();
+	}
+	
+	private void cargarDatos() {
+		try {
+			DAOEntidad.cargarTabla(table, DAOPersona.findAll());
+			ajustesTabla();
+			
+			rolInsertPersonaCombo.removeAllItems();
+			rolModifPersonaCombo.removeAllItems();
+			
+			
+			for(Rol rol : DAORol.ListaRoles()) {
+				rolInsertPersonaCombo.addItem(rol.getId()+"-"+rol.getNombre());
+				rolModifPersonaCombo.addItem(rol.getId()+"-"+rol.getNombre());
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 		
 	private void ajustesTabla() {
 		 table.getColumnModel().getColumn(0).setMinWidth(0);
 		 table.getColumnModel().getColumn(0).setMaxWidth(0);
 		 table.getColumnModel().getColumn(0).setWidth(0);
+		 table.getColumnModel().getColumn(1).setMinWidth(0);
+		 table.getColumnModel().getColumn(1).setMaxWidth(0);
+		 table.getColumnModel().getColumn(1).setWidth(0);
 	}
-
+	private ArrayList<Rol> roles;
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JTextField documentoInsertarTexto;
@@ -136,17 +159,20 @@ public class VistaPersona {
 	private JTextField fechaMesElimTexto;
 	private JLabel Documento_1_4_1_6;
 	private JTextField fechaAnioElimTexto;
+	private JComboBox rolInsertPersonaCombo;
+	private JComboBox rolModifPersonaCombo;
+	private JComboBox rolElimPersonaCombo;
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 1323, 311);
+		frame.setBounds(100, 100, 1323, 373);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 5, 961, 254);
+		scrollPane.setBounds(5, 5, 961, 315);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
@@ -156,34 +182,40 @@ public class VistaPersona {
 	        	try {
 			    	if (!lse.getValueIsAdjusting()) {
 			        	// Carga a valores de modificacion
-			            documentoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
-			            primerNombreModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
-			            segundoNombreModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 5).toString());
-			            primerApellidoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
-			            segundoApellidoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
-			            claveModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 7).toString());
-			            correoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 9).toString());
+			            documentoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
+			            primerNombreModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
+			            segundoNombreModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
+			            primerApellidoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 5).toString());
+			            segundoApellidoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 6).toString());
 			            
-			            String[] fechaNac = table.getModel().getValueAt(table.getSelectedRow(), 6).toString().split(" ");
+			            String[] fechaNac = table.getModel().getValueAt(table.getSelectedRow(), 7).toString().split(" ");
 			            String[] valoresFec = fechaNac[0].split("-");
+
+			            correoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 8).toString());
+			            claveModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 9).toString());
+
 			            
 			            fechaDiaModifTexto.setText(valoresFec[2]);
 			            fechaMesModifTexto.setText(valoresFec[1]);
 			            fechaAnioModifTexto.setText(valoresFec[0]);
 			            
-			            //Carga a valores de baja
-			            documentoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
-			            primerNombreEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
-			            segundoNombreEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 5).toString());
-			            primerApellidoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
-			            segundoApellidoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
-			            claveEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 7).toString());
-			            correoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 9).toString());
+			            rolModifPersonaCombo.setSelectedIndex(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString())-1);
 			            
-			            fechaDiaElimTexto.setText(valoresFec[2]);
-			            fechaMesElimTexto.setText(valoresFec[1]);
-			            fechaAnioElimTexto.setText(valoresFec[0]);
-
+			            //Carga a valores de baja
+			            documentoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
+			            primerNombreEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
+			            segundoNombreEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
+			            primerApellidoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 5).toString());
+			            segundoApellidoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 6).toString());
+			            claveEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 8).toString());
+			            correoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 9).toString());
+			            
+			            fechaDiaElimTexto.setText(""+valoresFec[2]);
+			            fechaMesElimTexto.setText(""+valoresFec[1]);
+			            fechaAnioElimTexto.setText(""+valoresFec[0]);
+			            
+			            rolElimPersonaCombo.removeAllItems();
+			            rolElimPersonaCombo.addItem(""+table.getModel().getValueAt(table.getSelectedRow(), 10).toString());
 			        }
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -193,7 +225,7 @@ public class VistaPersona {
 		scrollPane.setViewportView(table);
 		JTabbedPane panelABM = new JTabbedPane(JTabbedPane.TOP);
 		panelABM.setToolTipText("");
-		panelABM.setBounds(978, 5, 322, 254);
+		panelABM.setBounds(978, 5, 322, 281);
 		frame.getContentPane().add(panelABM);
 		
 		panel = new JPanel();
@@ -223,7 +255,7 @@ public class VistaPersona {
 		claveInsertarTexto.setColumns(10);
 		
 		JButton InsertarBoton = new JButton("Insertar Nuevo");
-		InsertarBoton.setBounds(5, 193, 305, 25);
+		InsertarBoton.setBounds(5, 220, 305, 25);
 		panel.add(InsertarBoton);
 		
 		JLabel Documento_1_1 = new JLabel("Primer Nombre");
@@ -298,6 +330,10 @@ public class VistaPersona {
 		Documento_1_4_1_2.setBounds(245, 166, 16, 22);
 		panel.add(Documento_1_4_1_2);
 		
+		rolInsertPersonaCombo = new JComboBox();
+		rolInsertPersonaCombo.setBounds(5, 193, 305, 22);
+		panel.add(rolInsertPersonaCombo);
+		
 		panelModificacion = new JPanel();
 		panelModificacion.setLayout(null);
 		panelABM.addTab("Modificar", null, panelModificacion, null);
@@ -325,7 +361,7 @@ public class VistaPersona {
 		panelModificacion.add(claveModificarTexto);
 		
 		ModificarBoton = new JButton("Modificar Persona");
-		ModificarBoton.setBounds(5, 193, 305, 25);
+		ModificarBoton.setBounds(5, 220, 305, 25);
 		panelModificacion.add(ModificarBoton);
 		
 		Documento_1_5 = new JLabel("Primer Nombre");
@@ -400,6 +436,10 @@ public class VistaPersona {
 		fechaAnioModifTexto.setBounds(254, 166, 56, 22);
 		panelModificacion.add(fechaAnioModifTexto);
 		
+		rolModifPersonaCombo = new JComboBox();
+		rolModifPersonaCombo.setBounds(5, 193, 305, 22);
+		panelModificacion.add(rolModifPersonaCombo);
+		
 		panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panelABM.addTab("Eliminar", null, panel_2, null);
@@ -429,7 +469,7 @@ public class VistaPersona {
 		panel_2.add(claveEliminarTexto);
 		
 		EliminarBoton = new JButton("Eliminar Registro");
-		EliminarBoton.setBounds(5, 193, 305, 25);
+		EliminarBoton.setBounds(5, 220, 305, 25);
 		panel_2.add(EliminarBoton);
 		
 		Documento_1_9 = new JLabel("Primer Nombre");
@@ -512,6 +552,10 @@ public class VistaPersona {
 		fechaAnioElimTexto.setBounds(254, 167, 56, 22);
 		panel_2.add(fechaAnioElimTexto);
 		
+		rolElimPersonaCombo = new JComboBox();
+		rolElimPersonaCombo.setBounds(5, 193, 305, 22);
+		panel_2.add(rolElimPersonaCombo);
+		
 		panel_3 = new JPanel();
 		panel_3.setLayout(null);
 		panelABM.addTab("Buscar", null, panel_3, null);
@@ -584,6 +628,10 @@ public class VistaPersona {
 		textField_14.setBounds(160, 72, 150, 22);
 		panel_3.add(textField_14);
 		
+		JButton btnAtras = new JButton("Atras");
+		btnAtras.setBounds(978, 295, 322, 25);
+		frame.getContentPane().add(btnAtras);
+		
 		
 		InsertarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -614,14 +662,14 @@ public class VistaPersona {
 				 
 				
 				DAOPersona.insert(persona);
-				DAOEntidad.cargarTabla(table, DAOPersona.findAll());
-				ajustesTabla();
+				cargarDatos();
 			}
 		});
 		
 		ModificarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Persona persona = new Persona();
+				persona.setId(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
 				persona.setDocumento(documentoModificarTexto.getText());
 				persona.setNombre1(primerNombreModificarTexto.getText());
 				persona.setNombre2(segundoNombreModificarTexto.getText());
@@ -647,8 +695,7 @@ public class VistaPersona {
 				}		
 				
 				DAOPersona.edit(persona);
-				DAOEntidad.cargarTabla(table, DAOPersona.findAll());
-				ajustesTabla();
+				cargarDatos();
 			}
 		});
 		
@@ -656,8 +703,7 @@ public class VistaPersona {
 			public void actionPerformed(ActionEvent e) {
 				
 				DAOPersona.delete(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
-				DAOEntidad.cargarTabla(table, DAOPersona.findAll());
-				ajustesTabla();
+				cargarDatos();
 			}
 		});
 	}

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import gestorBD.DatabaseManager;
 import modelo.Funcionalidad;
@@ -11,7 +12,7 @@ import modelo.Rol;
 
 public class DAORol {
 	private static final String CUENTA_ROLES = "SELECT COUNT(ID_ROL) AS CUENTA FROM ROL";
-	private static final String ALL_ROLES = "SELECT * FROM ROL";
+	private static final String ALL_ROLES = "SELECT * FROM ROL ORDER BY ID_ROL ASC";
 	private static final String INSERT_ROLES = "INSERT INTO ROL (ID_ROL,NOMBRE,"
 			+ "DESCRIPCION) "
 			+ "values (?,?,?)";
@@ -41,7 +42,6 @@ public class DAORol {
 	}
 	
 	public static ResultSet findAll() {
-		LinkedList<Rol> rol = new LinkedList<>();
 		Statement statement;
 		ResultSet resultado;
 		try {
@@ -56,6 +56,30 @@ public class DAORol {
 		}
 		
 	}
+	
+	public static ArrayList<Rol> ListaRoles() {
+		ArrayList<Rol> roles = new ArrayList<>();
+		
+		try {
+			ResultSet res = findAll();
+			while(res.next()) {
+				Rol rol = new Rol();
+				
+				rol.setId(res.getInt("ID_ROL"));
+				rol.setNombre(res.getString("NOMBRE"));
+				rol.setDescripcion(res.getString("DESCRIPCION"));
+				
+				roles.add(rol);
+			}
+			
+			return roles;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+		
+	}
+	
 	
 	public static boolean insert(Rol p) {
 		
