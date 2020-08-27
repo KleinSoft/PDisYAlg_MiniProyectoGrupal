@@ -1,39 +1,29 @@
 package vista;
 
 import java.awt.EventQueue;
-import java.sql.Connection;
-import java.util.Properties;
 
-import gestorBD.*;
 import modelo.Persona;
-import oracle.sql.DATE;
 
 import javax.swing.JFrame;
-import javax.swing.JToolBar;
 
 import controlador.DAOEntidad;
 import controlador.DAOPersona;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
-import java.awt.FlowLayout;
 import javax.swing.SwingConstants;
-
-import org.jdatepicker.impl.DateComponentFormatter;
-import org.jdatepicker.impl.JDatePanelImpl;
-import org.jdatepicker.impl.JDatePickerImpl;
-import org.jdatepicker.impl.UtilDateModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class VistaPersona {
 
@@ -55,34 +45,20 @@ public class VistaPersona {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public VistaPersona() {
 		initialize();
-		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
-		
-		JDatePickerImpl datePickerInsert = null;
-		crearCalendario(panel, datePickerInsert);
-		JDatePickerImpl datePickerModif = null;
-		crearCalendario(panel_1, datePickerModif);
-	}
-	
-	private void crearCalendario(JPanel panel, JDatePickerImpl datePicker) {
-		UtilDateModel model = new UtilDateModel();
-		//model.setDate(20,04,2014);
-		Properties p = new Properties();
-		p.put("text.today", "Today");
-		p.put("text.month", "Month");
-		p.put("text.year", "Year");
-		JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
 
-		datePicker = new JDatePickerImpl(datePanel, new DateComponentFormatter());
-		
-		datePicker.setBounds(319, 5, 200, 26);
-		panel.add(datePicker);
+		DAOEntidad.cargarTabla(table, DAOPersona.findAll());
+		ajustesTabla();
+
 	}
-	
+		
+	private void ajustesTabla() {
+		 table.getColumnModel().getColumn(0).setMinWidth(0);
+		 table.getColumnModel().getColumn(0).setMaxWidth(0);
+		 table.getColumnModel().getColumn(0).setWidth(0);
+	}
+
 	private JScrollPane scrollPane;
 	private JTable table;
 	private JTextField documentoInsertarTexto;
@@ -95,7 +71,7 @@ public class VistaPersona {
 	private JLabel Documento_1_2;
 	private JLabel Documento_1_3;
 	private JLabel Documento_1_4;
-	private JPanel panel_1;
+	private JPanel panelModificacion;
 	private JLabel documentoModificarLabel;
 	private JTextField documentoModificarTexto;
 	private JLabel Documento_1_1_2;
@@ -110,7 +86,7 @@ public class VistaPersona {
 	private JTextField correoModificarTexto;
 	private JLabel Documento_1_8;
 	private JTextField segundoApellidoModificarTexto;
-	private JTextField textField_6;
+	private JTextField primerApellidoModificarTexto;
 	private JPanel panel;
 	private JPanel panel_2;
 	private JLabel Documento_2;
@@ -118,15 +94,15 @@ public class VistaPersona {
 	private JLabel Documento_1_1_3;
 	private JLabel Documento_4;
 	private JTextField claveEliminarTexto;
-	private JButton InsertarBoton_1;
+	private JButton EliminarBoton;
 	private JLabel Documento_1_9;
 	private JTextField primerNombreEliminarTexto;
 	private JLabel Documento_1_10;
 	private JTextField segundoNombreEliminarTexto;
 	private JLabel Documento_1_11;
-	private JTextField textField_4;
+	private JTextField correoEliminarTexto;
 	private JLabel Documento_1_12;
-	private JTextField textField_5;
+	private JTextField segundoApellidoEliminarTexto;
 	private JTextField primerApellidoEliminarTexto;
 	private JPanel panel_3;
 	private JLabel Documento_5;
@@ -144,24 +120,80 @@ public class VistaPersona {
 	private JLabel Documento_1_16;
 	private JTextField textField_13;
 	private JTextField textField_14;
+	private JTextField fechaDiaInsertTexto;
+	private JTextField fechaMesInsertTexto;
+	private JTextField fechaAnioInsertTexo;
+	private JLabel Documento_1_4_1_2;
+	private JLabel Documento_1_4_2;
+	private JTextField fechaDiaModifTexto;
+	private JLabel Documento_1_4_1_3;
+	private JTextField fechaMesModifTexto;
+	private JLabel Documento_1_4_1_4;
+	private JTextField fechaAnioModifTexto;
+	private JLabel Documento_1_4_3;
+	private JTextField fechaDiaElimTexto;
+	private JLabel Documento_1_4_1_5;
+	private JTextField fechaMesElimTexto;
+	private JLabel Documento_1_4_1_6;
+	private JTextField fechaAnioElimTexto;
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 928, 611);
+		frame.setBounds(100, 100, 1323, 311);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 5, 900, 300);
+		scrollPane.setBounds(5, 5, 961, 254);
 		frame.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+		    public void valueChanged(ListSelectionEvent lse) {
+	        	try {
+			    	if (!lse.getValueIsAdjusting()) {
+			        	// Carga a valores de modificacion
+			            documentoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
+			            primerNombreModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
+			            segundoNombreModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 5).toString());
+			            primerApellidoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
+			            segundoApellidoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
+			            claveModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 7).toString());
+			            correoModificarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 9).toString());
+			            
+			            String[] fechaNac = table.getModel().getValueAt(table.getSelectedRow(), 6).toString().split(" ");
+			            String[] valoresFec = fechaNac[0].split("-");
+			            
+			            fechaDiaModifTexto.setText(valoresFec[2]);
+			            fechaMesModifTexto.setText(valoresFec[1]);
+			            fechaAnioModifTexto.setText(valoresFec[0]);
+			            
+			            //Carga a valores de baja
+			            documentoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
+			            primerNombreEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 4).toString());
+			            segundoNombreEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 5).toString());
+			            primerApellidoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
+			            segundoApellidoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
+			            claveEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 7).toString());
+			            correoEliminarTexto.setText(table.getModel().getValueAt(table.getSelectedRow(), 9).toString());
+			            
+			            fechaDiaElimTexto.setText(valoresFec[2]);
+			            fechaMesElimTexto.setText(valoresFec[1]);
+			            fechaAnioElimTexto.setText(valoresFec[0]);
+
+			        }
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+		    }
+		});
 		scrollPane.setViewportView(table);
 		JTabbedPane panelABM = new JTabbedPane(JTabbedPane.TOP);
 		panelABM.setToolTipText("");
-		panelABM.setBounds(5, 310, 530, 254);
+		panelABM.setBounds(978, 5, 322, 254);
 		frame.getContentPane().add(panelABM);
 		
 		panel = new JPanel();
@@ -213,12 +245,12 @@ public class VistaPersona {
 		segundoNombreInsertarTexto.setColumns(10);
 		
 		Documento_1_4 = new JLabel("Correo");
-		Documento_1_4.setHorizontalAlignment(SwingConstants.CENTER);
-		Documento_1_4.setBounds(5, 146, 305, 15);
+		Documento_1_4.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4.setBounds(5, 146, 150, 15);
 		panel.add(Documento_1_4);
 		
 		correoInsertarTexto = new JTextField();
-		correoInsertarTexto.setBounds(5, 166, 305, 22);
+		correoInsertarTexto.setBounds(5, 166, 150, 22);
 		panel.add(correoInsertarTexto);
 		correoInsertarTexto.setColumns(10);
 		
@@ -236,77 +268,137 @@ public class VistaPersona {
 		panel.add(primerApellidoInsertarTexto);
 		primerApellidoInsertarTexto.setColumns(10);
 		
-		panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panelABM.addTab("Modificar", null, panel_1, null);
+		fechaDiaInsertTexto = new JTextField();
+		fechaDiaInsertTexto.setColumns(10);
+		fechaDiaInsertTexto.setBounds(160, 166, 35, 22);
+		panel.add(fechaDiaInsertTexto);
+		
+		fechaMesInsertTexto = new JTextField();
+		fechaMesInsertTexto.setColumns(10);
+		fechaMesInsertTexto.setBounds(207, 166, 35, 22);
+		panel.add(fechaMesInsertTexto);
+		
+		fechaAnioInsertTexo = new JTextField();
+		fechaAnioInsertTexo.setColumns(10);
+		fechaAnioInsertTexo.setBounds(254, 166, 56, 22);
+		panel.add(fechaAnioInsertTexo);
+		
+		JLabel Documento_1_4_1 = new JLabel("Fecha");
+		Documento_1_4_1.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_1.setBounds(160, 145, 150, 15);
+		panel.add(Documento_1_4_1);
+		
+		JLabel Documento_1_4_1_1 = new JLabel("/");
+		Documento_1_4_1_1.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_1_1.setBounds(199, 165, 16, 22);
+		panel.add(Documento_1_4_1_1);
+		
+		Documento_1_4_1_2 = new JLabel("/");
+		Documento_1_4_1_2.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_1_2.setBounds(245, 166, 16, 22);
+		panel.add(Documento_1_4_1_2);
+		
+		panelModificacion = new JPanel();
+		panelModificacion.setLayout(null);
+		panelABM.addTab("Modificar", null, panelModificacion, null);
 		
 		documentoModificarLabel = new JLabel("Documento");
 		documentoModificarLabel.setBounds(5, 5, 150, 15);
-		panel_1.add(documentoModificarLabel);
+		panelModificacion.add(documentoModificarLabel);
 		
 		documentoModificarTexto = new JTextField();
 		documentoModificarTexto.setColumns(10);
 		documentoModificarTexto.setBounds(5, 25, 150, 22);
-		panel_1.add(documentoModificarTexto);
+		panelModificacion.add(documentoModificarTexto);
 		
 		Documento_1_1_2 = new JLabel("Primer Apellido");
 		Documento_1_1_2.setBounds(160, 52, 150, 15);
-		panel_1.add(Documento_1_1_2);
+		panelModificacion.add(Documento_1_1_2);
 		
 		Documento_3 = new JLabel("Clave");
 		Documento_3.setBounds(160, 5, 129, 16);
-		panel_1.add(Documento_3);
+		panelModificacion.add(Documento_3);
 		
 		claveModificarTexto = new JTextField();
 		claveModificarTexto.setColumns(10);
 		claveModificarTexto.setBounds(160, 25, 150, 22);
-		panel_1.add(claveModificarTexto);
+		panelModificacion.add(claveModificarTexto);
 		
 		ModificarBoton = new JButton("Modificar Persona");
 		ModificarBoton.setBounds(5, 193, 305, 25);
-		panel_1.add(ModificarBoton);
+		panelModificacion.add(ModificarBoton);
 		
 		Documento_1_5 = new JLabel("Primer Nombre");
 		Documento_1_5.setBounds(5, 52, 129, 15);
-		panel_1.add(Documento_1_5);
+		panelModificacion.add(Documento_1_5);
 		
 		primerNombreModificarTexto = new JTextField();
 		primerNombreModificarTexto.setColumns(10);
 		primerNombreModificarTexto.setBounds(5, 72, 150, 22);
-		panel_1.add(primerNombreModificarTexto);
+		panelModificacion.add(primerNombreModificarTexto);
 		
 		Documento_1_6 = new JLabel("Segundo Nombre");
 		Documento_1_6.setBounds(5, 99, 150, 15);
-		panel_1.add(Documento_1_6);
+		panelModificacion.add(Documento_1_6);
 		
 		segundoNombreModificarTexto = new JTextField();
 		segundoNombreModificarTexto.setColumns(10);
 		segundoNombreModificarTexto.setBounds(5, 119, 150, 22);
-		panel_1.add(segundoNombreModificarTexto);
+		panelModificacion.add(segundoNombreModificarTexto);
 		
 		Documento_1_7 = new JLabel("Correo");
-		Documento_1_7.setHorizontalAlignment(SwingConstants.CENTER);
-		Documento_1_7.setBounds(5, 146, 305, 15);
-		panel_1.add(Documento_1_7);
+		Documento_1_7.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_7.setBounds(5, 146, 150, 15);
+		panelModificacion.add(Documento_1_7);
 		
 		correoModificarTexto = new JTextField();
 		correoModificarTexto.setColumns(10);
-		correoModificarTexto.setBounds(5, 166, 305, 22);
-		panel_1.add(correoModificarTexto);
+		correoModificarTexto.setBounds(5, 166, 150, 22);
+		panelModificacion.add(correoModificarTexto);
 		
 		Documento_1_8 = new JLabel("Segundo Apellido");
 		Documento_1_8.setBounds(160, 99, 129, 15);
-		panel_1.add(Documento_1_8);
+		panelModificacion.add(Documento_1_8);
 		
 		segundoApellidoModificarTexto = new JTextField();
 		segundoApellidoModificarTexto.setColumns(10);
 		segundoApellidoModificarTexto.setBounds(160, 119, 150, 22);
-		panel_1.add(segundoApellidoModificarTexto);
+		panelModificacion.add(segundoApellidoModificarTexto);
 		
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
-		textField_6.setBounds(160, 72, 150, 22);
-		panel_1.add(textField_6);
+		primerApellidoModificarTexto = new JTextField();
+		primerApellidoModificarTexto.setColumns(10);
+		primerApellidoModificarTexto.setBounds(160, 72, 150, 22);
+		panelModificacion.add(primerApellidoModificarTexto);
+		
+		Documento_1_4_2 = new JLabel("Fecha");
+		Documento_1_4_2.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_2.setBounds(160, 145, 150, 15);
+		panelModificacion.add(Documento_1_4_2);
+		
+		fechaDiaModifTexto = new JTextField();
+		fechaDiaModifTexto.setColumns(10);
+		fechaDiaModifTexto.setBounds(160, 166, 35, 22);
+		panelModificacion.add(fechaDiaModifTexto);
+		
+		Documento_1_4_1_3 = new JLabel("/");
+		Documento_1_4_1_3.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_1_3.setBounds(199, 165, 16, 22);
+		panelModificacion.add(Documento_1_4_1_3);
+		
+		fechaMesModifTexto = new JTextField();
+		fechaMesModifTexto.setColumns(10);
+		fechaMesModifTexto.setBounds(207, 166, 35, 22);
+		panelModificacion.add(fechaMesModifTexto);
+		
+		Documento_1_4_1_4 = new JLabel("/");
+		Documento_1_4_1_4.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_1_4.setBounds(245, 166, 16, 22);
+		panelModificacion.add(Documento_1_4_1_4);
+		
+		fechaAnioModifTexto = new JTextField();
+		fechaAnioModifTexto.setColumns(10);
+		fechaAnioModifTexto.setBounds(254, 166, 56, 22);
+		panelModificacion.add(fechaAnioModifTexto);
 		
 		panel_2 = new JPanel();
 		panel_2.setLayout(null);
@@ -317,6 +409,7 @@ public class VistaPersona {
 		panel_2.add(Documento_2);
 		
 		documentoEliminarTexto = new JTextField();
+		documentoEliminarTexto.setEditable(false);
 		documentoEliminarTexto.setColumns(10);
 		documentoEliminarTexto.setBounds(5, 25, 150, 22);
 		panel_2.add(documentoEliminarTexto);
@@ -330,19 +423,21 @@ public class VistaPersona {
 		panel_2.add(Documento_4);
 		
 		claveEliminarTexto = new JTextField();
+		claveEliminarTexto.setEditable(false);
 		claveEliminarTexto.setColumns(10);
 		claveEliminarTexto.setBounds(160, 25, 150, 22);
 		panel_2.add(claveEliminarTexto);
 		
-		InsertarBoton_1 = new JButton("Insertar Nuevo");
-		InsertarBoton_1.setBounds(5, 193, 305, 25);
-		panel_2.add(InsertarBoton_1);
+		EliminarBoton = new JButton("Eliminar Registro");
+		EliminarBoton.setBounds(5, 193, 305, 25);
+		panel_2.add(EliminarBoton);
 		
 		Documento_1_9 = new JLabel("Primer Nombre");
 		Documento_1_9.setBounds(5, 52, 129, 15);
 		panel_2.add(Documento_1_9);
 		
 		primerNombreEliminarTexto = new JTextField();
+		primerNombreEliminarTexto.setEditable(false);
 		primerNombreEliminarTexto.setColumns(10);
 		primerNombreEliminarTexto.setBounds(5, 72, 150, 22);
 		panel_2.add(primerNombreEliminarTexto);
@@ -352,33 +447,70 @@ public class VistaPersona {
 		panel_2.add(Documento_1_10);
 		
 		segundoNombreEliminarTexto = new JTextField();
+		segundoNombreEliminarTexto.setEditable(false);
 		segundoNombreEliminarTexto.setColumns(10);
 		segundoNombreEliminarTexto.setBounds(5, 119, 150, 22);
 		panel_2.add(segundoNombreEliminarTexto);
 		
 		Documento_1_11 = new JLabel("Correo");
 		Documento_1_11.setHorizontalAlignment(SwingConstants.CENTER);
-		Documento_1_11.setBounds(5, 146, 305, 15);
+		Documento_1_11.setBounds(5, 146, 150, 15);
 		panel_2.add(Documento_1_11);
 		
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
-		textField_4.setBounds(5, 166, 305, 22);
-		panel_2.add(textField_4);
+		correoEliminarTexto = new JTextField();
+		correoEliminarTexto.setEditable(false);
+		correoEliminarTexto.setColumns(10);
+		correoEliminarTexto.setBounds(5, 166, 150, 22);
+		panel_2.add(correoEliminarTexto);
 		
 		Documento_1_12 = new JLabel("Segundo Apellido");
 		Documento_1_12.setBounds(160, 99, 129, 15);
 		panel_2.add(Documento_1_12);
 		
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
-		textField_5.setBounds(160, 119, 150, 22);
-		panel_2.add(textField_5);
+		segundoApellidoEliminarTexto = new JTextField();
+		segundoApellidoEliminarTexto.setEditable(false);
+		segundoApellidoEliminarTexto.setColumns(10);
+		segundoApellidoEliminarTexto.setBounds(160, 119, 150, 22);
+		panel_2.add(segundoApellidoEliminarTexto);
 		
 		primerApellidoEliminarTexto = new JTextField();
+		primerApellidoEliminarTexto.setEditable(false);
 		primerApellidoEliminarTexto.setColumns(10);
 		primerApellidoEliminarTexto.setBounds(160, 72, 150, 22);
 		panel_2.add(primerApellidoEliminarTexto);
+		
+		Documento_1_4_3 = new JLabel("Fecha");
+		Documento_1_4_3.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_3.setBounds(160, 146, 150, 15);
+		panel_2.add(Documento_1_4_3);
+		
+		fechaDiaElimTexto = new JTextField();
+		fechaDiaElimTexto.setEditable(false);
+		fechaDiaElimTexto.setColumns(10);
+		fechaDiaElimTexto.setBounds(160, 167, 35, 22);
+		panel_2.add(fechaDiaElimTexto);
+		
+		Documento_1_4_1_5 = new JLabel("/");
+		Documento_1_4_1_5.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_1_5.setBounds(199, 166, 16, 22);
+		panel_2.add(Documento_1_4_1_5);
+		
+		fechaMesElimTexto = new JTextField();
+		fechaMesElimTexto.setEditable(false);
+		fechaMesElimTexto.setColumns(10);
+		fechaMesElimTexto.setBounds(207, 167, 35, 22);
+		panel_2.add(fechaMesElimTexto);
+		
+		Documento_1_4_1_6 = new JLabel("/");
+		Documento_1_4_1_6.setHorizontalAlignment(SwingConstants.LEFT);
+		Documento_1_4_1_6.setBounds(245, 167, 16, 22);
+		panel_2.add(Documento_1_4_1_6);
+		
+		fechaAnioElimTexto = new JTextField();
+		fechaAnioElimTexto.setEditable(false);
+		fechaAnioElimTexto.setColumns(10);
+		fechaAnioElimTexto.setBounds(254, 167, 56, 22);
+		panel_2.add(fechaAnioElimTexto);
 		
 		panel_3 = new JPanel();
 		panel_3.setLayout(null);
@@ -451,6 +583,8 @@ public class VistaPersona {
 		textField_14.setColumns(10);
 		textField_14.setBounds(160, 72, 150, 22);
 		panel_3.add(textField_14);
+		
+		
 		InsertarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Persona persona = new Persona();
@@ -461,10 +595,69 @@ public class VistaPersona {
 				persona.setApellido2(segundoApellidoInsertarTexto.getText());
 				persona.setEmail(correoInsertarTexto.getText());
 				persona.setClave(claveInsertarTexto.getText());
-				System.out.println(claveInsertarTexto.getText());
-				persona.setFechaNac(java.util.Calendar.getInstance().getTime());
+				
+				String fecha = fechaAnioInsertTexo.getText() + "-" + fechaMesInsertTexto.getText() + "-" + fechaDiaInsertTexto.getText();
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+				java.util.Date date;
+				try {
+					date = sdf.parse(fecha);
+					
+					java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+					persona.setFechaNac(sqlDate);
+
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Error fecha a sql");
+				}
+				
+				 
 				
 				DAOPersona.insert(persona);
+				DAOEntidad.cargarTabla(table, DAOPersona.findAll());
+				ajustesTabla();
+			}
+		});
+		
+		ModificarBoton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Persona persona = new Persona();
+				persona.setDocumento(documentoModificarTexto.getText());
+				persona.setNombre1(primerNombreModificarTexto.getText());
+				persona.setNombre2(segundoNombreModificarTexto.getText());
+				persona.setApellido1(primerApellidoModificarTexto.getText());
+				persona.setApellido2(segundoApellidoModificarTexto.getText());
+				persona.setEmail(correoModificarTexto.getText());
+				persona.setClave(claveModificarTexto.getText());
+				
+				String fecha = fechaAnioModifTexto.getText() + "-" + fechaMesModifTexto.getText() + "-" + fechaDiaModifTexto.getText();
+
+				
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+				java.util.Date date;
+				try {
+					date = sdf.parse(fecha);
+					
+					java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+					persona.setFechaNac(sqlDate);
+
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					System.out.println("Error fecha a sql");
+				}		
+				
+				DAOPersona.edit(persona);
+				DAOEntidad.cargarTabla(table, DAOPersona.findAll());
+				ajustesTabla();
+			}
+		});
+		
+		EliminarBoton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				DAOPersona.delete(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
+				DAOEntidad.cargarTabla(table, DAOPersona.findAll());
+				ajustesTabla();
 			}
 		});
 	}

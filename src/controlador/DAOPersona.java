@@ -86,10 +86,10 @@ public class DAOPersona {
 			statement.setString(3, p.getApellido2());
 			statement.setString(4, p.getNombre1());
 			statement.setString(5, p.getNombre2());
-			statement.setDate(6, sqlDate);
+			statement.setDate(6, p.getFechaNac());
 			statement.setString(7, p.getEmail());
 			statement.setString(8, p.getClave());
-			
+						
 			int Retorno = statement.executeUpdate();
 			
 			return Retorno>0;
@@ -191,7 +191,7 @@ public class DAOPersona {
 		String nombre2 = resultado.getString(5);
 		String apellido1 = resultado.getString(2);
 		String apellido2 = resultado.getString(3);
-		Date fechaNac = resultado.getDate(6);
+		java.sql.Date fechaNac = resultado.getDate(6);
 		String clave = resultado.getString(7);
 		String email = resultado.getString(8);
 		

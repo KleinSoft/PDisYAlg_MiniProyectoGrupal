@@ -3,19 +3,20 @@ package modelo;
 import java.util.Date;
 
 public class Persona {
+	private int id;
 	private String documento;
 	private String nombre1;
 	private String nombre2;
 	private String apellido1;
 	private String apellido2;
-	private Date fechaNac;
+	private java.sql.Date fechaNac;
 	private String clave;
 	private String email;
 	private Rol rol;
 	
 	public Persona() {}
 
-	public Persona(String documento, String nombre1, String nombre2, String apellido1, String apellido2, Date fechaNac,
+	public Persona(String documento, String nombre1, String nombre2, String apellido1, String apellido2, java.sql.Date fechaNac,
 			String clave, String email) {
 		super();
 		this.documento = documento;
@@ -29,6 +30,14 @@ public class Persona {
 		this.rol=null;
 	}
 
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public Rol getRol() {
 		return rol;
@@ -78,11 +87,11 @@ public class Persona {
 		this.apellido2 = apellido2;
 	}
 
-	public Date getFechaNac() {
+	public java.sql.Date getFechaNac() {
 		return fechaNac;
 	}
 
-	public void setFechaNac(Date fechaNac) {
+	public void setFechaNac(java.sql.Date fechaNac) {
 		this.fechaNac = fechaNac;
 	}
 
