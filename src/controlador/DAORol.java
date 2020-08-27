@@ -15,7 +15,7 @@ public class DAORol {
 	private static final String INSERT_ROLES = "INSERT INTO ROL (ID_ROL,NOMBRE,"
 			+ "DESCRIPCION) "
 			+ "values (?,?,?)";
-	private static final String UPDATE_ROLES = "UPDATE ROL SET ID_ROL=?, NOMBRE=?, "
+	private static final String UPDATE_ROLES = "UPDATE ROL SET NOMBRE=?, "
 			+ "DESCRIPCION=? "
 			+ "WHERE ID_ROL=?";
 	private static final String DELETE_ROLES = "DELETE FROM ROL WHERE ID_ROL=?";
@@ -131,12 +131,11 @@ public class DAORol {
 		
 	}
 	
-	public static Rol findRol(String nombre, String descripcion) {
+	public static Rol findRol(String nombre) {
 		try {
 			
 			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(BUSCAR_ROL);
 			statement.setString(1, nombre);
-			statement.setString(2, descripcion);
 			
 			ResultSet resultado = statement.executeQuery();
 			

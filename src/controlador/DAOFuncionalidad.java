@@ -14,8 +14,7 @@ public class DAOFuncionalidad {
 	private static final String INSERT_FUNCIONALIDADES = "INSERT INTO FUNCIONALIDAD (ID_FUNCIONALIDAD,NOMBRE,"
 			+ "DESCRIPCION) "
 			+ "values (?,?,?)";
-	private static final String UPDATE_FUNCIONALIDADES = "UPDATE FUNCIONALIDAD SET ID_FUNCIONALIDAD=?, NOMBRE=?, "
-			+ "DESCRIPCION=? "
+	private static final String UPDATE_FUNCIONALIDADES = "UPDATE FUNCIONALIDAD SET NOMBRE=?, DESCRIPCION=? "
 			+ "WHERE ID_FUNCIONALIDAD=?";
 	private static final String DELETE_FUNCIONALIDADES = "DELETE FROM FUNCIONALIDAD WHERE ID_FUNCIONALIDAD=?";
 	private static final String SELECCIONAR_FUNCIONALIDAD_BY_ID = "SELECT * FROM FUNCIONALIDAD WHERE ID_FUNCIONALIDAD=?";
@@ -130,12 +129,11 @@ public class DAOFuncionalidad {
 		
 	}
 	
-	public static Funcionalidad findFuncionalidad(String nombre, String descripcion) {
+	public static Funcionalidad findFuncionalidad(String nombre) {
 		try {
 			
 			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(BUSCAR_FUNCIONALIDAD);
 			statement.setString(1, nombre);
-			statement.setString(2, descripcion);
 			
 			ResultSet resultado = statement.executeQuery();
 			
