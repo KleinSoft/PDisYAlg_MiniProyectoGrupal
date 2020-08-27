@@ -7,7 +7,16 @@ public class Rol {
 	private String descripcion;
 	private ArrayList<Persona> personas;
 	private ArrayList<Funcionalidad> funcionalidades;
+	private int id;
 	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public Rol() {
 		
 	}
@@ -52,7 +61,7 @@ public class Rol {
 	public void setFuncionalidades(ArrayList<Funcionalidad> funcionalidades) {
 		this.funcionalidades = funcionalidades;
 	}
-	
+
 	
 	
 	

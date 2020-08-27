@@ -14,10 +14,12 @@ import modelo.Persona;
 public class DAOPersona {
 	
 	private static final String CUENTA_PERSONAS = "SELECT COUNT(ID_PERSONA) AS CUENTA FROM PERSONA";
-	private static final String ALL_PERSONAS = "SELECT * FROM PERSONA";
-	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,NOMBRE2,FEC_NAC, MAIL, CLAVE, ID_ROL) "
+	private static final String ALL_PERSONAS = "SELECT * FROM PERSONA INNER JOIN ROL ON PERSONA.ID_ROL = ROL.ID_ROL";
+	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,"
+			+ "NOMBRE2,FEC_NAC, MAIL, CLAVE, ID_ROL) "
 			+ "values (SEQ_ID_PERSONA.NEXTVAL,?,?,?,?,?,?,?,?,1)";
-	private static final String UPDATE_PERSONAS = "UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, NOMBRE2=? "
+	private static final String UPDATE_PERSONAS = "UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, "
+			+ "NOMBRE2=?, FEC_NAC=?, MAIL=?, CLAVE=?, ID_ROL=?"
 			+ "WHERE ID_PERSONA=?";
 	private static final String DELETE_PERSONAS = "DELETE FROM PERSONA WHERE ID_PERSONA=?";
 	private static final String SELECCIONAR_PERSONA_BY_ID = "SELECT * FROM PERSONA WHERE ID_PERSONA=?";
@@ -112,6 +114,7 @@ public class DAOPersona {
 			statement.setDate(6, (java.sql.Date) persona.getFechaNac());
 			statement.setString(7, persona.getClave());
 			statement.setString(8, persona.getEmail());
+			statement.setInt(9, persona.getRol().getId());
 			int retorno = statement.executeUpdate();
 			
 			return retorno>0;
