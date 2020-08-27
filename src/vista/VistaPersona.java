@@ -31,7 +31,7 @@ import javax.swing.JComboBox;
 
 public class VistaPersona {
 
-	private JFrame frame;
+	private JFrame frmPersonas;
 
 	/**
 	 * Launch the application.
@@ -41,7 +41,7 @@ public class VistaPersona {
 			public void run() {
 				try {
 					VistaPersona window = new VistaPersona();
-					window.frame.setVisible(true);
+					window.frmPersonas.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -54,6 +54,8 @@ public class VistaPersona {
 		
 		cargarDatos();
 	}
+	
+
 	
 	private void cargarDatos() {
 		try {
@@ -166,14 +168,15 @@ public class VistaPersona {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1323, 373);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frmPersonas = new JFrame();
+		frmPersonas.setTitle("Personas");
+		frmPersonas.setBounds(100, 100, 1323, 373);
+		frmPersonas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmPersonas.getContentPane().setLayout(null);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(5, 5, 961, 315);
-		frame.getContentPane().add(scrollPane);
+		frmPersonas.getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -226,7 +229,7 @@ public class VistaPersona {
 		JTabbedPane panelABM = new JTabbedPane(JTabbedPane.TOP);
 		panelABM.setToolTipText("");
 		panelABM.setBounds(978, 5, 322, 281);
-		frame.getContentPane().add(panelABM);
+		frmPersonas.getContentPane().add(panelABM);
 		
 		panel = new JPanel();
 		panelABM.addTab("Insertar", null, panel, null);
@@ -630,7 +633,7 @@ public class VistaPersona {
 		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.setBounds(978, 295, 322, 25);
-		frame.getContentPane().add(btnAtras);
+		frmPersonas.getContentPane().add(btnAtras);
 		
 		
 		InsertarBoton.addActionListener(new ActionListener() {
@@ -709,7 +712,7 @@ public class VistaPersona {
 	}
 
 	public void mostrar() {
-		// TODO Auto-generated method stub
-		
+		frmPersonas.setVisible(true);
 	}
+	
 }

@@ -38,6 +38,8 @@ public class VistaLogin extends JFrame {
 	 * Create the frame.
 	 */
 	public VistaLogin() {
+		setResizable(false);
+		setTitle("Iniciar Sesi\u00F3n");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 340, 250);
 		contentPane = new JPanel();
@@ -51,6 +53,14 @@ public class VistaLogin extends JFrame {
 		panel.setLayout(null);
 		
 		JButton btnNewButtonLogin = new JButton("Ingresar >>>");
+		btnNewButtonLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				VistaPrincipal vp = new VistaPrincipal();
+				vp.mostrar();
+				VistaLogin.this.dispose();
+			}
+		});
 		btnNewButtonLogin.setBounds(95, 116, 133, 56);
 		panel.add(btnNewButtonLogin);
 		

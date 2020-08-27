@@ -40,12 +40,12 @@ public class VistaPrincipal {
 	public VistaPrincipal() {
 		initialize();
 	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	public void mostrar() {
+		frmSistemaDeVentas.setVisible(true);
+	}
 	private void initialize() {
 		frmSistemaDeVentas = new JFrame();
+		frmSistemaDeVentas.setTitle("Bienvenido");
 		frmSistemaDeVentas.setBounds(100, 100, 398, 453);
 		frmSistemaDeVentas.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmSistemaDeVentas.getContentPane().setLayout(null);
