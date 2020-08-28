@@ -5,7 +5,13 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import controlador.DAOPersona;
+import modelo.Persona;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -52,25 +58,16 @@ public class VistaLogin extends JFrame {
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
-		JButton btnNewButtonLogin = new JButton("Ingresar >>>");
-		btnNewButtonLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				VistaPrincipal vp = new VistaPrincipal();
-				vp.mostrar();
-				VistaLogin.this.dispose();
-			}
-		});
-		btnNewButtonLogin.setBounds(95, 116, 133, 56);
-		panel.add(btnNewButtonLogin);
+
+
 		
-		JTextPane textPaneLoginEmail = new JTextPane();
-		textPaneLoginEmail.setBounds(95, 57, 133, 20);
-		panel.add(textPaneLoginEmail);
+		JTextField textFieldLoginEmail = new JTextField();
+		textFieldLoginEmail.setBounds(95, 57, 133, 20);
+		panel.add(textFieldLoginEmail);
 		
-		JTextPane textPaneLoginClave = new JTextPane();
-		textPaneLoginClave.setBounds(95, 86, 133, 20);
-		panel.add(textPaneLoginClave);
+		JPasswordField textFieldLoginClave = new JPasswordField();
+		textFieldLoginClave.setBounds(95, 86, 133, 20);
+		panel.add(textFieldLoginClave);
 		
 		JLabel lblNewLabelEmail = new JLabel("Email");
 		lblNewLabelEmail.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -84,7 +81,50 @@ public class VistaLogin extends JFrame {
 		
 		JLabel lblNewLabelImagenLogo = new JLabel("");
 		lblNewLabelImagenLogo.setIcon(new ImageIcon(VistaLogin.class.getResource("/imagenes/KleinSoft loguito.png")));
-		lblNewLabelImagenLogo.setBounds(122, 11, 77, 37);
+		lblNewLabelImagenLogo.setBounds(123, 11, 77, 37);
 		panel.add(lblNewLabelImagenLogo);
+		
+		JLabel lblNewLabelEstado = new JLabel("");
+		lblNewLabelEstado.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabelEstado.setBounds(10, 183, 304, 14);
+		panel.add(lblNewLabelEstado);
+		
+		
+		JButton btnNewButtonLogin = new JButton("Ingresar >>>");
+		btnNewButtonLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+		
+
+				String errorVacio = "Al menos uno de los campos está vacio";
+				String errorIncorrecto = "Email o contraseña incorrecta";
+
+				DAOPersona logIn = new DAOPersona();
+				Persona p = new Persona();
+
+				p.setEmail(textFieldLoginEmail.getText());
+				p.setClave(textFieldLoginClave.getText());
+
+				if (!(textFieldLoginEmail.getText().isEmpty() || textFieldLoginClave.getText().isEmpty())) {
+
+					if (logIn.login(p)) {
+						VistaPrincipal vp = new VistaPrincipal(); // MOSTRAR LA VENTANA PRINCIPAL
+						vp.mostrar();
+						VistaLogin.this.dispose();
+					}
+					lblNewLabelEstado.setText(errorIncorrecto);
+
+				} else {
+					lblNewLabelEstado.setText(errorVacio);
+
+				}
+
+			}
+		}
+
+		);
+		btnNewButtonLogin.setBounds(95, 116, 133, 56);
+		panel.add(btnNewButtonLogin);
+		
+
 	}
 }
