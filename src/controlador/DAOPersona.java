@@ -26,6 +26,7 @@ public class DAOPersona {
 	private static final String DELETE_PERSONAS = "DELETE FROM PERSONA WHERE ID_PERSONA=?";
 	private static final String SELECCIONAR_PERSONA_BY_ID = "SELECT * FROM PERSONA WHERE ID_PERSONA=?";
 	private static final String BUSCAR_PERSONA= "SELECT * FROM PERSONA WHERE APELLIDO1=? AND NOMBRE1=?";
+	private static final String CONTRASENA = "SELECT MAIL, CLAVE, ID_ROL FROM PERSONA WHERE MAIL=?";
 	
 	public static int cuentaPersonas() {
 		int Cuenta = 0;
@@ -181,6 +182,41 @@ public class DAOPersona {
 		}
 		
 	}
+	
+	public boolean login(Persona pLogin) { 
+
+		try {
+			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(CONTRASENA);
+			statement.setString(1, pLogin.getEmail());
+
+			ResultSet resultado = statement.executeQuery();
+
+			if (resultado.next()) {
+				/*
+				 * resultado.getString(1); // MAIL 
+				 * resultado.getString(2);// CLAVE
+				 * resultado.getString(3) // ROL
+				 */
+
+				if (pLogin.getClave().equals(resultado.getString(1))
+						&& pLogin.getClave().equals(resultado.getString(2))) {
+					return true;
+				}
+
+				return false;
+
+			}
+			return false;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+
+		}
+
+	}
+	
+	
 	
 	private static Persona getPersonaRS(ResultSet resultado) throws SQLException {
 		
