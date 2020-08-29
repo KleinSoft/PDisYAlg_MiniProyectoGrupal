@@ -679,8 +679,7 @@ public class VistaPersona {
 				persona.setEmail(correoInsertarTexto.getText());
 				persona.setClave(claveInsertarTexto.getText());
 				
-				Rol rol = new Rol()
-						;
+				Rol rol = new Rol();
 				String[] rolString = rolInsertPersonaCombo.getSelectedItem().toString().split("-");
 				
 				rol.setId(Integer.parseInt(rolString[0]));
