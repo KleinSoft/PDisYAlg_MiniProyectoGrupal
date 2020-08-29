@@ -13,7 +13,7 @@ public class DAOFuncionalidad {
 	private static final String ALL_FUNCIONALIDADES = "SELECT * FROM FUNCIONALIDAD";
 	private static final String INSERT_FUNCIONALIDADES = "INSERT INTO FUNCIONALIDAD (ID_FUNCIONALIDAD,NOMBRE,"
 			+ "DESCRIPCION) "
-			+ "values (?,?,?)";
+			+ "values (SEQ_ID_FUNC.NEXTVAL,?,?)";
 	private static final String UPDATE_FUNCIONALIDADES = "UPDATE FUNCIONALIDAD SET NOMBRE=?, DESCRIPCION=? "
 			+ "WHERE ID_FUNCIONALIDAD=?";
 	private static final String DELETE_FUNCIONALIDADES = "DELETE FROM FUNCIONALIDAD WHERE ID_FUNCIONALIDAD=?";
@@ -82,6 +82,7 @@ public class DAOFuncionalidad {
 			
 			statement.setString(1, funcionalidad.getNombre());
 			statement.setString(2, funcionalidad.getDescripcion());
+			statement.setInt(3, funcionalidad.getId());
 			int retorno = statement.executeUpdate();
 			
 			return retorno>0;

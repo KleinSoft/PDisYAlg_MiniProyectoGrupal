@@ -185,6 +185,13 @@ public class VistaRol {
 		panel_2.add(primerNombreEliminarTexto);
 		
 		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaPrincipal vp = new VistaPrincipal();
+				vp.mostrar();
+				frmFuncionalidades.setVisible(false);
+			}
+		});
 		btnAtras.setBounds(978, 295, 322, 25);
 		frmFuncionalidades.getContentPane().add(btnAtras);
 		

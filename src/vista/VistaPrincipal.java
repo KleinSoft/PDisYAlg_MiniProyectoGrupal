@@ -59,6 +59,7 @@ public class VistaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				VistaPersona vp = new VistaPersona();
 				vp.mostrar();
+				frmSistemaDeVentas.setVisible(false);
 			}
 		});
 		btnNewButton.setBounds(66, 82, 242, 85);
@@ -71,6 +72,8 @@ public class VistaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				VistaRol vr = new VistaRol();
 				vr.mostrar();//vista rol
+				frmSistemaDeVentas.setVisible(false);
+
 			}
 		});
 		btnRoles.setBounds(66, 180, 242, 85);
@@ -81,6 +84,8 @@ public class VistaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				VistaFuncionalidad vf = new VistaFuncionalidad();
 				vf.mostrar();
+				frmSistemaDeVentas.setVisible(false);
+
 			}
 		});
 		btnNewButton_1_1.setFont(new Font("Dubai", Font.BOLD, 16));

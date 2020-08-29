@@ -63,7 +63,6 @@ public class VistaFuncionalidad {
 	private void cargarDatos() {
 		try {
 			DAOEntidad.cargarTabla(table, DAOFuncionalidad.findAll());
-			rolModifPersonaCombo.removeAllItems();
 			
 			
 		} catch (Exception e) {
@@ -90,14 +89,6 @@ public class VistaFuncionalidad {
 	private JButton EliminarBoton;
 	private JLabel Documento_1_9;
 	private JTextField primerNombreEliminarTexto;
-	private JPanel panel_3;
-	private JLabel Documento_5;
-	private JTextField textField_8;
-	private JButton InsertarBoton_2;
-	private JLabel Documento_1_13;
-	private JTextField textField_10;
-	private JComboBox rolModifPersonaCombo;
-	private JComboBox rolElimPersonaCombo;
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -119,18 +110,13 @@ public class VistaFuncionalidad {
 	        	try {
 			    	if (!lse.getValueIsAdjusting()) {
 			        	// Carga a valores de modificacion
-			            documentoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
-			            primerNombreModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
-			            
-			            
-			            rolModifPersonaCombo.setSelectedIndex(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString())-1);
+			            documentoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
+			            primerNombreModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
 			            
 			            //Carga a valores de baja
-			            documentoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
-			            primerNombreEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
+			            documentoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
+			            primerNombreEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
 			            
-			            rolElimPersonaCombo.removeAllItems();
-			            rolElimPersonaCombo.addItem(""+table.getModel().getValueAt(table.getSelectedRow(), 10).toString());
 			        }
 				} catch (Exception e) {
 					// TODO: handle exception
@@ -195,9 +181,17 @@ public class VistaFuncionalidad {
 		primerNombreModificarTexto.setBounds(5, 72, 305, 22);
 		panelModificacion.add(primerNombreModificarTexto);
 		
-		rolModifPersonaCombo = new JComboBox();
-		rolModifPersonaCombo.setBounds(5, 193, 305, 22);
-		panelModificacion.add(rolModifPersonaCombo);
+		ModificarBoton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Funcionalidad funcionalidad = new Funcionalidad();
+				funcionalidad.setId(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
+				funcionalidad.setNombre(documentoModificarTexto.getText());
+				funcionalidad.setDescripcion(primerNombreModificarTexto.getText());
+								
+				DAOFuncionalidad.edit(funcionalidad);
+				cargarDatos();
+			}
+		});
 		
 		panel_2 = new JPanel();
 		panel_2.setLayout(null);
@@ -227,41 +221,22 @@ public class VistaFuncionalidad {
 		primerNombreEliminarTexto.setBounds(5, 72, 305, 22);
 		panel_2.add(primerNombreEliminarTexto);
 		
-		rolElimPersonaCombo = new JComboBox();
-		rolElimPersonaCombo.setBounds(5, 193, 305, 22);
-		panel_2.add(rolElimPersonaCombo);
-		
-		panel_3 = new JPanel();
-		panel_3.setLayout(null);
-		panelABM.addTab("Buscar", null, panel_3, null);
-		
-		Documento_5 = new JLabel("Nombre");
-		Documento_5.setBounds(5, 5, 150, 15);
-		panel_3.add(Documento_5);
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(5, 25, 305, 22);
-		panel_3.add(textField_8);
-		
-		InsertarBoton_2 = new JButton("Buscar");
-		InsertarBoton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		EliminarBoton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				DAOFuncionalidad.delete(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
+				cargarDatos();
 			}
 		});
-		InsertarBoton_2.setBounds(5, 193, 305, 25);
-		panel_3.add(InsertarBoton_2);
-		
-		Documento_1_13 = new JLabel("Descripci\u00F3n");
-		Documento_1_13.setBounds(5, 52, 129, 15);
-		panel_3.add(Documento_1_13);
-		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		textField_10.setBounds(5, 72, 300, 22);
-		panel_3.add(textField_10);
 		
 		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VistaPrincipal vp = new VistaPrincipal();
+				vp.mostrar();
+				frmFuncionalidades.setVisible(false);
+			}
+		});
 		btnAtras.setBounds(978, 295, 322, 25);
 		frmFuncionalidades.getContentPane().add(btnAtras);
 		
@@ -273,26 +248,6 @@ public class VistaFuncionalidad {
 				funcionalidad.setDescripcion(primerNombreInsertarTexto.getText());
 				
 				DAOFuncionalidad.insert(funcionalidad);
-				cargarDatos();
-			}
-		});
-		
-		ModificarBoton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Funcionalidad funcionalidad = new Funcionalidad();
-				funcionalidad.setId(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
-				funcionalidad.setNombre(documentoModificarTexto.getText());
-				funcionalidad.setDescripcion(primerNombreModificarTexto.getText());
-								
-				DAOFuncionalidad.edit(funcionalidad);
-				cargarDatos();
-			}
-		});
-		
-		EliminarBoton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				DAOFuncionalidad.delete(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
 				cargarDatos();
 			}
 		});

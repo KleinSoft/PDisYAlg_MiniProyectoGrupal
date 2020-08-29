@@ -594,15 +594,15 @@ public class VistaPersona {
 				
 				//Carga a valores de baja
 				t2.setText(persona.getNombre1());
-				t3.setText(persona.getNombre2());
-				t4.setText(persona.getApellido1());
+				t4.setText(persona.getNombre2());
+				t3.setText(persona.getApellido1());
 				t5.setText(persona.getApellido2());
 				t6.setText(persona.getEmail());
 				t1.setText(persona.getClave());
 	           
 			}
 		});
-		InsertarBoton_2.setBounds(5, 226, 305, 25);
+		InsertarBoton_2.setBounds(5, 220, 305, 25);
 		panel_3.add(InsertarBoton_2);
 		
 		Documento_1_13 = new JLabel("Primer Nombre");
@@ -653,10 +653,17 @@ public class VistaPersona {
 		panel_3.add(t3);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(5, 191, 305, 22);
+		comboBox.setBounds(5, 193, 305, 22);
 		panel_3.add(comboBox);
 		
 		JButton btnAtras = new JButton("Atras");
+		btnAtras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				VistaPrincipal vp = new VistaPrincipal();
+				vp.mostrar();
+				frmPersonas.setVisible(false);
+			}
+		});
 		btnAtras.setBounds(978, 295, 322, 25);
 		frmPersonas.getContentPane().add(btnAtras);
 		
@@ -671,6 +678,13 @@ public class VistaPersona {
 				persona.setApellido2(segundoApellidoInsertarTexto.getText());
 				persona.setEmail(correoInsertarTexto.getText());
 				persona.setClave(claveInsertarTexto.getText());
+				
+				Rol rol = new Rol()
+						;
+				String[] rolString = rolInsertPersonaCombo.getSelectedItem().toString().split("-");
+				
+				rol.setId(Integer.parseInt(rolString[0]));
+				persona.setRol(rol);
 				
 				String fecha = fechaAnioInsertTexo.getText() + "-" + fechaMesInsertTexto.getText() + "-" + fechaDiaInsertTexto.getText();
 				
@@ -706,7 +720,10 @@ public class VistaPersona {
 				persona.setEmail(correoModificarTexto.getText());
 				persona.setClave(claveModificarTexto.getText());
 				Rol r = new Rol();
-				r.setId(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
+				
+				String[] rolString = rolModifPersonaCombo.getSelectedItem().toString().split("-");
+				
+				r.setId(Integer.parseInt(rolString[0]));
 				persona.setRol(r);
 				String fecha = fechaAnioModifTexto.getText() + "-" + fechaMesModifTexto.getText() + "-" + fechaDiaModifTexto.getText();
 
@@ -732,7 +749,7 @@ public class VistaPersona {
 		EliminarBoton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				DAOPersona.delete(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString()));
+				DAOPersona.delete(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 1).toString()));
 				cargarDatos();
 			}
 		});
