@@ -13,11 +13,11 @@ public class Funcionalidad {
 		
 	}
 	
-	public Funcionalidad(String nombre, String descripcion, ArrayList<Rol> roles) {
+	public Funcionalidad(String nombre, String descripcion) {
 		super();
 		this.nombre = nombre;
 		this.descripcion = descripcion;
-		this.roles = roles;
+		this.roles = null;
 	}
 
 

@@ -33,6 +33,7 @@ public class VistaLogin extends JFrame {
 				try {
 					VistaLogin frame = new VistaLogin();
 					frame.setVisible(true);
+					frame.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -98,20 +99,21 @@ public class VistaLogin extends JFrame {
 				String errorVacio = "Al menos uno de los campos está vacio";
 				String errorIncorrecto = "Email o contraseña incorrecta";
 
-				DAOPersona logIn = new DAOPersona();
 				Persona p = new Persona();
 
 				p.setEmail(textFieldLoginEmail.getText());
 				p.setClave(textFieldLoginClave.getText());
-
+				
+				
 				if (!(textFieldLoginEmail.getText().isEmpty() || textFieldLoginClave.getText().isEmpty())) {
 
-					if (logIn.login(p)) {
+					if (DAOPersona.login(p)) {
 						VistaPrincipal vp = new VistaPrincipal(); // MOSTRAR LA VENTANA PRINCIPAL
 						vp.mostrar();
 						VistaLogin.this.dispose();
+					}else {
+						lblNewLabelEstado.setText(errorIncorrecto);
 					}
-					lblNewLabelEstado.setText(errorIncorrecto);
 
 				} else {
 					lblNewLabelEstado.setText(errorVacio);

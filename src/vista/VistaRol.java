@@ -44,6 +44,7 @@ public class VistaRol {
 				try {
 					VistaRol window = new VistaRol();
 					window.frmFuncionalidades.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,7 +54,7 @@ public class VistaRol {
 
 	public VistaRol() {
 		initialize();
-		
+		frmFuncionalidades.setLocationRelativeTo(null);
 		cargarDatos();
 	}
 	
@@ -62,8 +63,6 @@ public class VistaRol {
 	private void cargarDatos() {
 		try {
 			DAOEntidad.cargarTabla(table, DAORol.findAll());
-			ajustesTabla();
-			rolModifPersonaCombo.removeAllItems();
 			
 			
 			
@@ -72,14 +71,7 @@ public class VistaRol {
 		}
 	}
 		
-	private void ajustesTabla() {
-		 table.getColumnModel().getColumn(0).setMinWidth(0);
-		 table.getColumnModel().getColumn(0).setMaxWidth(0);
-		 table.getColumnModel().getColumn(0).setWidth(0);
-		 table.getColumnModel().getColumn(1).setMinWidth(0);
-		 table.getColumnModel().getColumn(1).setMaxWidth(0);
-		 table.getColumnModel().getColumn(1).setWidth(0);
-	}
+	
 	private ArrayList<Rol> roles;
 	private JScrollPane scrollPane;
 	private JTable table;
@@ -98,14 +90,6 @@ public class VistaRol {
 	private JButton EliminarBoton;
 	private JLabel Documento_1_9;
 	private JTextField primerNombreEliminarTexto;
-	private JPanel panel_3;
-	private JLabel Documento_5;
-	private JTextField textField_8;
-	private JButton InsertarBoton_2;
-	private JLabel Documento_1_13;
-	private JTextField textField_10;
-	private JComboBox rolModifPersonaCombo;
-	private JComboBox rolElimPersonaCombo;
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -115,37 +99,6 @@ public class VistaRol {
 		frmFuncionalidades.setBounds(100, 100, 1323, 373);
 		frmFuncionalidades.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmFuncionalidades.getContentPane().setLayout(null);
-		
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 5, 961, 315);
-		frmFuncionalidades.getContentPane().add(scrollPane);
-		
-		table = new JTable();
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-
-		    public void valueChanged(ListSelectionEvent lse) {
-	        	try {
-			    	if (!lse.getValueIsAdjusting()) {
-			        	// Carga a valores de modificacion
-			            documentoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
-			            primerNombreModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
-			            
-			            
-			            rolModifPersonaCombo.setSelectedIndex(Integer.parseInt(table.getModel().getValueAt(table.getSelectedRow(), 0).toString())-1);
-			            
-			            //Carga a valores de baja
-			            documentoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
-			            primerNombreEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 3).toString());
-			            
-			            rolElimPersonaCombo.removeAllItems();
-			            rolElimPersonaCombo.addItem(""+table.getModel().getValueAt(table.getSelectedRow(), 10).toString());
-			        }
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-		    }
-		});
-		scrollPane.setViewportView(table);
 		JTabbedPane panelABM = new JTabbedPane(JTabbedPane.TOP);
 		panelABM.setToolTipText("");
 		panelABM.setBounds(978, 5, 322, 281);
@@ -203,10 +156,6 @@ public class VistaRol {
 		primerNombreModificarTexto.setBounds(5, 72, 305, 22);
 		panelModificacion.add(primerNombreModificarTexto);
 		
-		rolModifPersonaCombo = new JComboBox();
-		rolModifPersonaCombo.setBounds(5, 193, 305, 22);
-		panelModificacion.add(rolModifPersonaCombo);
-		
 		panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panelABM.addTab("Eliminar", null, panel_2, null);
@@ -235,43 +184,43 @@ public class VistaRol {
 		primerNombreEliminarTexto.setBounds(5, 72, 305, 22);
 		panel_2.add(primerNombreEliminarTexto);
 		
-		rolElimPersonaCombo = new JComboBox();
-		rolElimPersonaCombo.setBounds(5, 193, 305, 22);
-		panel_2.add(rolElimPersonaCombo);
-		
-		panel_3 = new JPanel();
-		panel_3.setLayout(null);
-		panelABM.addTab("Buscar", null, panel_3, null);
-		
-		Documento_5 = new JLabel("Nombre");
-		Documento_5.setBounds(5, 5, 150, 15);
-		panel_3.add(Documento_5);
-		
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
-		textField_8.setBounds(5, 25, 305, 22);
-		panel_3.add(textField_8);
-		
-		InsertarBoton_2 = new JButton("Buscar");
-		InsertarBoton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		InsertarBoton_2.setBounds(5, 193, 305, 25);
-		panel_3.add(InsertarBoton_2);
-		
-		Documento_1_13 = new JLabel("Descripci\u00F3n");
-		Documento_1_13.setBounds(5, 52, 129, 15);
-		panel_3.add(Documento_1_13);
-		
-		textField_10 = new JTextField();
-		textField_10.setColumns(10);
-		textField_10.setBounds(5, 72, 300, 22);
-		panel_3.add(textField_10);
-		
 		JButton btnAtras = new JButton("Atras");
 		btnAtras.setBounds(978, 295, 322, 25);
 		frmFuncionalidades.getContentPane().add(btnAtras);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(5, 5, 961, 315);
+		frmFuncionalidades.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+
+		    public void valueChanged(ListSelectionEvent lse) {
+	        	try {
+			    	if (!lse.getValueIsAdjusting()) {
+			        	// Carga a valores de modificacion
+			            documentoModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
+			            primerNombreModificarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
+			            
+			            
+			            
+			            //Carga a valores de baja
+			            documentoEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 1).toString());
+			            primerNombreEliminarTexto.setText(""+table.getModel().getValueAt(table.getSelectedRow(), 2).toString());
+			            
+			            
+			            //Muestra funcionalidades
+			            
+			            
+			            //Funcionalidades a agregar
+			           
+			        }
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+		    }
+		});
+		scrollPane.setViewportView(table);
 		
 		
 		InsertarBoton.addActionListener(new ActionListener() {

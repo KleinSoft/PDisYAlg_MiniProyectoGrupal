@@ -19,6 +19,8 @@ public class DAOFuncionalidad {
 	private static final String DELETE_FUNCIONALIDADES = "DELETE FROM FUNCIONALIDAD WHERE ID_FUNCIONALIDAD=?";
 	private static final String SELECCIONAR_FUNCIONALIDAD_BY_ID = "SELECT * FROM FUNCIONALIDAD WHERE ID_FUNCIONALIDAD=?";
 	private static final String BUSCAR_FUNCIONALIDAD= "SELECT * FROM FUNCIONALIDAD WHERE NOMBRE=?";
+	private static final String FUNCIONALIDADES_BY_ROL= "SELECT * FROM FUNCIONALIDAD WHERE =?";
+
 	
 	public static int cuentaFuncionalidades() {
 		int Cuenta = 0;
@@ -60,13 +62,12 @@ public class DAOFuncionalidad {
 		try {
 			
 			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(INSERT_FUNCIONALIDADES);
-			int i = 500;
-			statement.setLong(1, i);
-			statement.setString(2, p.getNombre());
-			statement.setString(3, p.getDescripcion());
+
+
+			statement.setString(1, p.getNombre());
+			statement.setString(2, p.getDescripcion());
 			
 			int Retorno = statement.executeUpdate();
-			i++;
 			return Retorno>0;
 		}
 		catch(SQLException e) {
@@ -119,7 +120,7 @@ public class DAOFuncionalidad {
 			if(resultado.next()){
 				funcionalidad = getFuncionalidadRS(resultado);
 			}
-			Funcionalidad fun = new Funcionalidad(funcionalidad.getNombre(), funcionalidad.getDescripcion(), null);
+			Funcionalidad fun = new Funcionalidad(funcionalidad.getNombre(), funcionalidad.getDescripcion());
 			return fun;
 		}
 		catch(SQLException e) {
@@ -157,7 +158,7 @@ public class DAOFuncionalidad {
 		
 		
 		
-		Funcionalidad funcionalidad = new Funcionalidad(nombre, descripcion, null);
+		Funcionalidad funcionalidad = new Funcionalidad(nombre, descripcion);
 		
 		return funcionalidad;
 	

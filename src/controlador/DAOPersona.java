@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import gestorBD.DatabaseManager;
 import modelo.Persona;
+import modelo.Rol;
 
 public class DAOPersona {
 	
@@ -19,13 +20,16 @@ public class DAOPersona {
 												+ "P INNER JOIN ROL R ON P.ID_ROL = R.ID_ROL";
 	private static final String INSERT_PERSONAS = "INSERT INTO PERSONA (ID_PERSONA,DOCUMENTO,APELLIDO1,APELLIDO2,NOMBRE1,"
 			+ "NOMBRE2,FEC_NAC, MAIL, CLAVE, ID_ROL) "
-			+ "values (SEQ_ID_PERSONA.NEXTVAL,?,?,?,?,?,?,?,?,1)";
+			+ "values (SEQ_ID_PERSONA.NEXTVAL,?,?,?,?,?,?,?,?,?)";
 	private static final String UPDATE_PERSONAS = "UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, "
 			+ "NOMBRE2=?, FEC_NAC=?, MAIL=?, CLAVE=?, ID_ROL=?"
 			+ "WHERE ID_PERSONA=?";
 	private static final String DELETE_PERSONAS = "DELETE FROM PERSONA WHERE ID_PERSONA=?";
 	private static final String SELECCIONAR_PERSONA_BY_ID = "SELECT * FROM PERSONA WHERE ID_PERSONA=?";
 	private static final String BUSCAR_PERSONA= "SELECT * FROM PERSONA WHERE APELLIDO1=? AND NOMBRE1=?";
+	private static final String BUSCAR_PERSONA_BY_DOC= "SELECT R.ID_ROL, P.ID_PERSONA, P.DOCUMENTO, P.NOMBRE1, P.NOMBRE2, P.APELLIDO1, "
+			+ "P.APELLIDO2, P.FEC_NAC, P.MAIL, P.CLAVE, R.NOMBRE AS ROL FROM PERSONA "
+			+ "P INNER JOIN ROL R ON P.ID_ROL = R.ID_ROL WHERE P.DOCUMENTO = ?";
 	private static final String CONTRASENA = "SELECT MAIL, CLAVE, ID_ROL FROM PERSONA WHERE MAIL=?";
 	
 	public static int cuentaPersonas() {
@@ -80,6 +84,8 @@ public class DAOPersona {
 			statement.setDate(6, p.getFechaNac());
 			statement.setString(7, p.getEmail());
 			statement.setString(8, p.getClave());
+			statement.setInt(9, p.getRol().getId());
+			
 						
 			int Retorno = statement.executeUpdate();
 			
@@ -103,14 +109,10 @@ public class DAOPersona {
 			statement.setDate(6, (java.sql.Date) persona.getFechaNac());
 			statement.setString(7, persona.getEmail());
 			statement.setString(8, persona.getClave());
-			statement.setInt(9, 1);
+			statement.setInt(9, persona.getRol().getId());
 			
 			statement.setInt(10, persona.getId());
-			
-//			"UPDATE PERSONA SET DOCUMENTO=?, APELLIDO1=?, APELLIDO2=?, NOMBRE1=?, "
-//			+ "NOMBRE2=?, FEC_NAC=?, MAIL=?, CLAVE=?, ID_ROL=?"
-//			+ "WHERE ID_PERSONA=?"
-			
+						
 			int retorno = statement.executeUpdate();
 			
 			return retorno>0;
@@ -183,7 +185,28 @@ public class DAOPersona {
 		
 	}
 	
-	public boolean login(Persona pLogin) { 
+	public static Persona findPersona(String documento) {
+		try {
+			
+			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(BUSCAR_PERSONA_BY_DOC);
+			statement.setString(1, documento);
+						
+			ResultSet resultado = statement.executeQuery();
+			
+			if(resultado.next()){
+				return getPersonaRS(resultado);
+				
+			}
+			return null;
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	public static boolean login(Persona pLogin) { 
 
 		try {
 			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(CONTRASENA);
@@ -197,8 +220,9 @@ public class DAOPersona {
 				 * resultado.getString(2);// CLAVE
 				 * resultado.getString(3) // ROL
 				 */
-
-				if (pLogin.getClave().equals(resultado.getString(1))
+				
+				
+				if (pLogin.getEmail().equals(resultado.getString(1))
 						&& pLogin.getClave().equals(resultado.getString(2))) {
 					return true;
 				}
@@ -219,18 +243,26 @@ public class DAOPersona {
 	
 	
 	private static Persona getPersonaRS(ResultSet resultado) throws SQLException {
+//		"SELECT R.ID_ROL, P.ID_PERSONA, P.DOCUMENTO, P.NOMBRE1, P.NOMBRE2, P.APELLIDO1, "
+//				+ "P.APELLIDO2, P.FEC_NAC, P.MAIL, P.CLAVE, R.NOMBRE AS ROL FROM PERSONA "
+//				+ "P INNER JOIN ROL R ON P.ID_ROL = R.ID_ROL WHERE P.DOCUMENTO = ?";
+//		
 		
-		String documento = resultado.getString(1);
+		String documento = resultado.getString(3);
 		String nombre1 = resultado.getString(4);
 		String nombre2 = resultado.getString(5);
-		String apellido1 = resultado.getString(2);
-		String apellido2 = resultado.getString(3);
-		java.sql.Date fechaNac = resultado.getDate(6);
-		String clave = resultado.getString(7);
-		String email = resultado.getString(8);
+		String apellido1 = resultado.getString(6);
+		String apellido2 = resultado.getString(7);
+		java.sql.Date fechaNac = resultado.getDate(8);
+		String email = resultado.getString(9);
+		String clave = resultado.getString(10);
 		
 		
 		Persona persona = new Persona(documento, nombre1, nombre2, apellido1, apellido2, fechaNac, clave, email);
+		Rol r = new Rol();
+		r.setId(resultado.getInt(1));
+		r.setNombre(resultado.getString(11));
+		persona.setRol(r);
 		
 		return persona;
 	

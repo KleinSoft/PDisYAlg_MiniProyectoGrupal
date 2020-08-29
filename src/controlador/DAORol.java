@@ -15,7 +15,7 @@ public class DAORol {
 	private static final String ALL_ROLES = "SELECT * FROM ROL ORDER BY ID_ROL ASC";
 	private static final String INSERT_ROLES = "INSERT INTO ROL (ID_ROL,NOMBRE,"
 			+ "DESCRIPCION) "
-			+ "values (?,?,?)";
+			+ "values (SEQ_ID_ROL.NEXTVAL,?,?)";
 	private static final String UPDATE_ROLES = "UPDATE ROL SET NOMBRE=?, "
 			+ "DESCRIPCION=? "
 			+ "WHERE ID_ROL=?";
@@ -86,13 +86,10 @@ public class DAORol {
 		try {
 			
 			PreparedStatement statement = DatabaseManager.getConnection().prepareStatement(INSERT_ROLES);
-			int i = 500;
-			statement.setLong(1, i);
-			statement.setString(2, p.getNombre());
-			statement.setString(3, p.getDescripcion());
+			statement.setString(1, p.getNombre());
+			statement.setString(2, p.getDescripcion());
 			
 			int Retorno = statement.executeUpdate();
-			i++;
 			return Retorno>0;
 		}
 		catch(SQLException e) {
@@ -107,6 +104,7 @@ public class DAORol {
 			
 			statement.setString(1, rol.getNombre());
 			statement.setString(2, rol.getDescripcion());
+			statement.setInt(3, rol.getId());
 			int retorno = statement.executeUpdate();
 			
 			return retorno>0;

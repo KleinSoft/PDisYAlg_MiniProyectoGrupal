@@ -39,6 +39,8 @@ public class VistaPrincipal {
 	 */
 	public VistaPrincipal() {
 		initialize();
+		frmSistemaDeVentas.setLocationRelativeTo(null);
+
 	}
 	public void mostrar() {
 		frmSistemaDeVentas.setVisible(true);

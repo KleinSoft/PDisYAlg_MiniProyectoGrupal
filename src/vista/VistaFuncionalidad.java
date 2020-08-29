@@ -44,6 +44,7 @@ public class VistaFuncionalidad {
 				try {
 					VistaFuncionalidad window = new VistaFuncionalidad();
 					window.frmFuncionalidades.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -53,7 +54,7 @@ public class VistaFuncionalidad {
 
 	public VistaFuncionalidad() {
 		initialize();
-		
+		frmFuncionalidades.setLocationRelativeTo(null);
 		cargarDatos();
 	}
 	
@@ -62,29 +63,15 @@ public class VistaFuncionalidad {
 	private void cargarDatos() {
 		try {
 			DAOEntidad.cargarTabla(table, DAOFuncionalidad.findAll());
-			ajustesTabla();
-			
-			rolInsertPersonaCombo.removeAllItems();
 			rolModifPersonaCombo.removeAllItems();
 			
 			
-			for(Rol rol : DAORol.ListaRoles()) {
-				rolInsertPersonaCombo.addItem(rol.getId()+"-"+rol.getNombre());
-				rolModifPersonaCombo.addItem(rol.getId()+"-"+rol.getNombre());
-			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
 		
-	private void ajustesTabla() {
-		 table.getColumnModel().getColumn(0).setMinWidth(0);
-		 table.getColumnModel().getColumn(0).setMaxWidth(0);
-		 table.getColumnModel().getColumn(0).setWidth(0);
-		 table.getColumnModel().getColumn(1).setMinWidth(0);
-		 table.getColumnModel().getColumn(1).setMaxWidth(0);
-		 table.getColumnModel().getColumn(1).setWidth(0);
-	}
+	
 	private ArrayList<Rol> roles;
 	private JScrollPane scrollPane;
 	private JTable table;
@@ -109,7 +96,6 @@ public class VistaFuncionalidad {
 	private JButton InsertarBoton_2;
 	private JLabel Documento_1_13;
 	private JTextField textField_10;
-	private JComboBox rolInsertPersonaCombo;
 	private JComboBox rolModifPersonaCombo;
 	private JComboBox rolElimPersonaCombo;
 	/**
@@ -182,14 +168,6 @@ public class VistaFuncionalidad {
 		primerNombreInsertarTexto.setBounds(5, 72, 300, 22);
 		panel.add(primerNombreInsertarTexto);
 		primerNombreInsertarTexto.setColumns(10);
-		
-		rolInsertPersonaCombo = new JComboBox();
-		rolInsertPersonaCombo.setBounds(5, 193, 305, 22);
-		panel.add(rolInsertPersonaCombo);
-		
-		JLabel lblNewLabel = new JLabel("Asignar Funcionalidad a Rol:");
-		lblNewLabel.setBounds(5, 164, 207, 16);
-		panel.add(lblNewLabel);
 		
 		panelModificacion = new JPanel();
 		panelModificacion.setLayout(null);
@@ -293,8 +271,7 @@ public class VistaFuncionalidad {
 				Funcionalidad funcionalidad = new Funcionalidad();
 				funcionalidad.setNombre(documentoInsertarTexto.getText());
 				funcionalidad.setDescripcion(primerNombreInsertarTexto.getText());
-				Rol rol = (Rol) rolInsertPersonaCombo.getSelectedItem();
-				funcionalidad.setRol(rol);
+				
 				DAOFuncionalidad.insert(funcionalidad);
 				cargarDatos();
 			}
